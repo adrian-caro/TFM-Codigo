@@ -1,7 +1,7 @@
 #ifndef NODE
 #define NODE
 #include <string>
-
+#include "Tunnel.h"
 class Node{
 
 private: 
@@ -9,7 +9,7 @@ private:
         int nodenumber;
         int numberofexits;
         float position[3];
-        //Tunnel *exits[];
+        Tunnel *exits[];
 public:
     Node(std::string t, int nn, int ne);
     ~Node();
