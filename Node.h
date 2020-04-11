@@ -2,6 +2,7 @@
 #define NODE
 #include <string>
 #include "Tunnel.h"
+class Tunnel;
 class Node{
 
 private: 
@@ -11,9 +12,12 @@ private:
         float position[3];
         Tunnel *exits[];
 public:
-    Node(std::string t, int nn, int ne);
+    Node();
+        //Node(std::string t, int nn, int ne);
     ~Node();
+    void settype(std::string n);
     void setnumberofexits(int n); //Por si luego se quieren cambiar
+    void setnodenumber(int n);
     void addtunnel();
     void printnode();
 };

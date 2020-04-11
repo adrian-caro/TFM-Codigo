@@ -2,11 +2,15 @@
 #include <iostream>
 
 
-Node::Node(std::string t, int nn, int ne)
+//Node::Node(std::string t, int nn, int ne)
+//{
+//    type=t;
+//    numberofexits=ne;
+//    nodenumber=nn;
+//}
+Node::Node()
 {
-    type=t;
-    numberofexits=ne;
-    nodenumber=nn;
+
 }
 
 Node::~Node()
@@ -14,9 +18,19 @@ Node::~Node()
 
 }
 
+void Node::settype(std::string n)
+{
+    type=n;
+}
+
 void Node::setnumberofexits(int n)
 {
     numberofexits=n;
+}
+
+void Node::setnodenumber(int n)
+{
+    nodenumber=n;
 }
 
 

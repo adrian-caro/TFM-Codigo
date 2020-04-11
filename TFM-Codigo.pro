@@ -12,3 +12,6 @@ HEADERS += \
     Node.h \
     Room.h \
     Tunnel.h
+
+DISTFILES += \
+    data.txt
