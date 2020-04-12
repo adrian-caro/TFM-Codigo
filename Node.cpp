@@ -26,6 +26,7 @@ void Node::settype(std::string n)
 void Node::setnumberofexits(int n)
 {
     numberofexits=n;
+
 }
 
 void Node::setnodenumber(int n)
@@ -43,4 +44,14 @@ void Node::printnode() //prints node info
 {
     std::cout << "Nodo: " << nodenumber << " Tipo: " << type << " Number of exits: " << numberofexits << std::endl;
     std::cout << std::endl;
+}
+
+void Node::printexits() //Esta se va a utilizar para imprimir los tuneles que tiene un nodo
+{
+    // std::cout << "Exits: " << exits[]->printtunnel() << std::endl;
+}
+
+void Node::printname()
+{
+    std::cout << type;
 }

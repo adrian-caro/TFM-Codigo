@@ -10,7 +10,7 @@ private:
         int nodenumber;
         int numberofexits;
         float position[3];
-        Tunnel *exits[];
+        Tunnel *exits[10];
 public:
     Node();
         //Node(std::string t, int nn, int ne);
@@ -20,6 +20,8 @@ public:
     void setnodenumber(int n);
     void addtunnel();
     void printnode();
+    void printname();
+    void printexits();
 };
 
 
