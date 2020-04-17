@@ -42,8 +42,8 @@ void Node::addtunnel()
 
 void Node::printnode() //prints node info
 {
-    std::cout << "Nodo: " << nodenumber << " Tipo: " << type << " Number of exits: " << numberofexits << std::endl;
-    std::cout << std::endl;
+    std::cout << "Nodo:" << nodenumber << "\t" << "\t" << "Name:" << type << "\t" <<  "Number of exits:" << numberofexits << std::endl;
+
 }
 
 void Node::printexits() //Esta se va a utilizar para imprimir los tuneles que tiene un nodo
@@ -53,5 +53,5 @@ void Node::printexits() //Esta se va a utilizar para imprimir los tuneles que ti
 
 void Node::printname()
 {
-    std::cout << type;
+    std::cout << nodenumber;
 }

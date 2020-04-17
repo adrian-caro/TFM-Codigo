@@ -24,13 +24,14 @@ Tunnel::~Tunnel()
 
 void Tunnel::printtunnel() //prints node info
 {
-    std::cout << "Tunnel:" << name;
-    std::cout <<" Length:" << length << " Width:" << width <<" Height:" << height << " Slope:" << slope << " Number of segments:" << numberofsegments << std::endl;
+    std::cout << "Tunnel:" << name << "\t";
     std::cout << "Ending nodes: ";
     endings[0]->printname();
-    std::cout << " and ";
+    std::cout << "-";
     endings[1]->printname();
-    std::cout << std::endl;
+    std::cout << "\t";
+    std::cout <<" Length:" << length << " Width:" << width <<" Height:" << height << " Slope:" << slope << " Number of segments:" << numberofsegments << std::endl;
+
 }
 
 void Tunnel::setname(std::string n)

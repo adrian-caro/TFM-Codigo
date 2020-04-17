@@ -31,6 +31,8 @@ int main()
     int var1;
     int var2;
 
+    std::cout << "------Nodes input------" << std::endl;
+    std::cout << std::endl;
     //Creo un vector de objetos nodo, que van a ir configurandose según el txt
     Node nodos[10];
     int i=0, N; // N=Number of nodes in the graph
@@ -67,8 +69,9 @@ int main()
 
     //Creo un vector de objetos tunnel, que van a ir configurandose según el txt
     Tunnel tuneles[10];
-
-
+    std::cout << std::endl;
+    std::cout << "------Tunnels input------" << std::endl;
+    std::cout << std::endl;
     vector<Enlace> enlaces;
     i=0;
     std::string tunnel;
@@ -98,14 +101,16 @@ int main()
 //        { 3, 2 }, { 4, 5 }, { 5, 4 }
 //    };
 
-
-
+    std::cout << std::endl;
+    std::cout << "------Node adjacency list------" << std::endl;
+    std::cout << std::endl;
 
     // construct grafo
     Grafo grafo(enlaces, N);
 
     // print adjacency list representation of grafo
     grafo.printGraph(grafo, N);
+    std::cout << std::endl;
     return 0;
     //nodos[1].printnode();
 
