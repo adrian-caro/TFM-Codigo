@@ -6,12 +6,14 @@ CONFIG -= qt
 SOURCES += main.cpp \
     Node.cpp \
     Room.cpp \
-    Tunnel.cpp
+    Tunnel.cpp \
+    Graph.cpp
 
 HEADERS += \
     Node.h \
     Room.h \
-    Tunnel.h
+    Tunnel.h \
+    Graph.h
 
 DISTFILES += \
     data.txt

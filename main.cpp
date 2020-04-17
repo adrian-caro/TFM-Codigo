@@ -1,8 +1,10 @@
 #include "Node.h"
 #include "Tunnel.h"
+#include "Graph.h"
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 
@@ -31,13 +33,13 @@ int main()
 
     //Creo un vector de objetos nodo, que van a ir configurandose según el txt
     Node nodos[10];
-    int i=0;
+    int i=0, N; // N=Number of nodes in the graph
     while (inputdata >> name >> var1 >> var2)
     {
         //Comprueba que no se ha pasado a definir los tuneles
-        if (name=="%")
+        if (name=="NOMORENODESFLAG")
         {
-           // std::cout << "se salio";
+            // std::cout << "se salio";
             break;
 
         };
@@ -52,32 +54,28 @@ int main()
         //cout << name <<" "<< var1 <<" "<< var2  <<" "<< std::endl;
         i++;
     }
-
-    //inputdata >> junkheader1;
-    //inputdata >> junkheader1;
-    //inputdata >> junkheader1;
-    //inputdata >> junkheader1;
-    //inputdata >> junkheader1;
-    //inputdata >> junkheader1;
+    N=i;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
 
 
     //Creo un vector de objetos tunnel, que van a ir configurandose según el txt
     Tunnel tuneles[10];
 
 
-
+    vector<Enlace> enlaces;
     i=0;
     std::string tunnel;
     int start, final, nuseg;
     float len, wid, hei, slo;
     while (inputdata >> tunnel >> start >> final >> len >> wid >> hei >> slo >> nuseg)
     {
-        //Comprueba que no se ha pasado a definir otra cosa
-        if (tunnel=="%")
-        {
-            std::cout << "se salio";
-            break;
-        };
 
         tuneles[i].setname(tunnel);
         tuneles[i].setstartnode(start,nodos);
@@ -89,24 +87,25 @@ int main()
         tuneles[i].setslope(slo);
         tuneles[i].setnumberofsegments(nuseg);
         tuneles[i].printtunnel();
-
-
-
-        //cout << name <<" "<< var1 <<" "<< var2  <<" "<< std::endl;
+        enlaces.push_back({start,final}); //creates links in the node adjacency list
         i++;
     }
-    //int nodostotales=i;
-//    //Imprime los nodos
-//    for (i=1; i<nodostotales ;i++)
+
+
+//     =
 //    {
-//        nodos[i].printnode();
-//    }
-    //Node nodo1("tipasdasdasdo",1,3);
-    //Tunnel tunel1("Tunelito", 1000, 1, 2, 2, 1);
+//        { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 },
+//        { 3, 2 }, { 4, 5 }, { 5, 4 }
+//    };
 
 
-    //nodo1.printnode();
-    //tunel1.printtunnel();
+
+
+    // construct grafo
+    Grafo grafo(enlaces, N);
+
+    // print adjacency list representation of grafo
+    grafo.printGraph(grafo, N);
     return 0;
     //nodos[1].printnode();
 
