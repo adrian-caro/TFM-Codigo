@@ -1,6 +1,7 @@
 #include "Node.h"
 #include "Tunnel.h"
 #include "Graph.h"
+#include "Segment.h"
 
 #include <iostream>
 #include <fstream>
@@ -69,27 +70,51 @@ int main()
 
     //Creo un vector de objetos tunnel, que van a ir configurandose según el txt
     Tunnel tuneles[10];
+    vector<Segment> segments(100); //OJO [] es tamaño, () es numero de objetos.
+
+
+
     std::cout << std::endl;
     std::cout << "------Tunnels input------" << std::endl;
     std::cout << std::endl;
+
+
+
     vector<Enlace> enlaces;
     i=0;
     std::string tunnel;
-    int start, final, nuseg;
+    int start, final, nuseg,segcounter=0;
+
+    //crear tantos objeto sewgmentos como numero de segmento
+
+
     float len, wid, hei, slo;
-    while (inputdata >> tunnel >> start >> final >> len >> wid >> hei >> slo >> nuseg)
+    while (inputdata >> tunnel >> start >> final >> nuseg)
     {
+
 
         tuneles[i].setname(tunnel);
         tuneles[i].setstartnode(start,nodos);
         tuneles[i].setfinalnode(final,nodos);
-
-        tuneles[i].setlength(len);
-        tuneles[i].setwidth(wid);
-        tuneles[i].setheight(hei);
-        tuneles[i].setslope(slo);
         tuneles[i].setnumberofsegments(nuseg);
+
+        for (int j=0;j<nuseg;j++)
+        {
+
+            inputdata>> len >> wid >> hei >> slo;
+            segments[segcounter].setlength(len);
+            segments[segcounter].setwidth(wid);
+            segments[segcounter].setheight(hei);
+            segments[segcounter].setslope(slo);
+            tuneles[i].addsegment(&segments[segcounter]);
+            segcounter++;
+        }
+
+
+
+
         tuneles[i].printtunnel();
+
         enlaces.push_back({start,final}); //creates links in the node adjacency list
         i++;
     }

@@ -42,7 +42,7 @@ void Node::addtunnel()
 
 void Node::printnode() //prints node info
 {
-    std::cout << "Nodo:" << nodenumber << "\t" << "\t" << "Name:" << type << "\t" <<  "Number of exits:" << numberofexits << std::endl;
+    std::cout << "Node:" << nodenumber << "\t" << " Name:" << type << "\t" <<  "Number of exits:" << numberofexits << std::endl;
 
 }
 

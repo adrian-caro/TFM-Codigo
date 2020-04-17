@@ -1,6 +1,7 @@
 #ifndef NODE
 #define NODE
 #include <string>
+#include <vector>
 #include "Tunnel.h"
 class Tunnel;
 class Node{

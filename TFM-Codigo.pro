@@ -7,13 +7,15 @@ SOURCES += main.cpp \
     Node.cpp \
     Room.cpp \
     Tunnel.cpp \
-    Graph.cpp
+    Graph.cpp \
+    Segment.cpp
 
 HEADERS += \
     Node.h \
     Room.h \
     Tunnel.h \
-    Graph.h
+    Graph.h \
+    Segment.h
 
 DISTFILES += \
     data.txt
