@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include "Tunnel.h"
+
+
+class OOI;
 class Tunnel;
 class Node{
 
@@ -12,6 +15,7 @@ private:
         int numberofexits;
         float position[3];
         Tunnel *exits[10];
+        std::vector<OOI*> OOIs;
 public:
     Node();
         //Node(std::string t, int nn, int ne);
@@ -23,6 +27,7 @@ public:
     void printnode();
     void printname();
     void printexits();
+    void addOOI(OOI *ooi);
 };
 
 

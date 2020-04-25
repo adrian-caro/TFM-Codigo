@@ -8,14 +8,18 @@ SOURCES += main.cpp \
     Room.cpp \
     Tunnel.cpp \
     Graph.cpp \
-    Segment.cpp
+    Segment.cpp \
+    OOI.cpp \
+    Dijkstra.cpp
 
 HEADERS += \
     Node.h \
     Room.h \
     Tunnel.h \
     Graph.h \
-    Segment.h
+    Segment.h \
+    OOI.h \
+    Dijkstra.h
 
 DISTFILES += \
     data.txt

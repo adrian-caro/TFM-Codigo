@@ -3,70 +3,75 @@
 using namespace std;
 
 
-
+//Creates a graph
 Grafo::Grafo(vector<Enlace> const& enlaces, int N)
 {
-    // Redimensiona el vector al numero de elementos de tipo vector<int>
+    // Resize
     ListaAdyacencia.resize(N);
 
-    // Añade enlaces al grafo
+    // Tunnels are added
     for (auto& enlace : enlaces)
     {
         int nointroducir = 0;
-        //Comprueba que el enlace a añadir no existe ya por parte del otro
-        //std::cout << "myvector contains:";
 
-        //Comprueba antes que no exista ese enlace previamente
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // insert at the end
+        //checks if the tunnel has been added before in the source node
 
-        nointroducir = 0;
-        for (std::vector<int>::iterator it = ListaAdyacencia[enlace.nodofuente].begin(); it != ListaAdyacencia[enlace.nodofuente].end(); ++it)
+             //checks
+        for (std::vector<Pair>::iterator it = ListaAdyacencia[enlace.nodofuente].begin(); it != ListaAdyacencia[enlace.nodofuente].end(); ++it)
         {
-            if (*it == enlace.nododestino)
+            if (it->first == enlace.nododestino)
             {
                 nointroducir = 1;
             }
 
         }
+
+            //add
         if (nointroducir == 0)
         {
-            // Uncomment below line for undirected grafo
-            ListaAdyacencia[enlace.nodofuente].push_back(enlace.nododestino);
+            ListaAdyacencia[enlace.nodofuente].push_back(make_pair(enlace.nododestino,enlace.length));
         }
 
-        //Al ser indirecto, se añade tambien este enlace al nodo destino.
-        //Primero se ha de comprobar que no existe
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        //Checks that the tunnel doesnt exits already, and if so, it adds too in the final node (Bidirectional).
         nointroducir = 0;
-        for (std::vector<int>::iterator it = ListaAdyacencia[enlace.nododestino].begin(); it != ListaAdyacencia[enlace.nododestino].end(); ++it)
+            //checks
+        for (std::vector<Pair>::iterator it = ListaAdyacencia[enlace.nododestino].begin(); it != ListaAdyacencia[enlace.nododestino].end(); ++it)
         {
-            if (*it == enlace.nodofuente)
+            if (it->first == enlace.nodofuente)
             {
                 nointroducir = 1;
             }
 
         }
+
+            //add
         if (nointroducir == 0)
         {
-            // Uncomment below line for undirected grafo
-            ListaAdyacencia[enlace.nododestino].push_back(enlace.nodofuente);
+            ListaAdyacencia[enlace.nododestino].push_back(make_pair(enlace.nodofuente,enlace.length));
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //prueba
     }
 }
+
 
 void Grafo::printGraph(Grafo const& graf, int N)
 {
     for (int i = 0; i < N; i++)
     {
-        // Imprime el nodo actual
+        //Prints current node
         cout << i << " --> ";
 
-        //  Imprime los nodos vecinos conectados
-        for (int v : graf.ListaAdyacencia[i])
-            cout << v << " ";
+        //Prints connected nodes
+        for (Pair v : graf.ListaAdyacencia[i])
+            cout << "(" << v.first << "," << v.second << ") " ;
         cout << endl;
     }
 }

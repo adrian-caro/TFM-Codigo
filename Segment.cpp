@@ -10,6 +10,12 @@ void Segment::setlength(float n)
     length=n;
 }
 
+float Segment::getlength()
+{
+    return length;
+}
+
+
 void Segment::setheight(float n)
 {
     height=n;

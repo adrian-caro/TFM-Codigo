@@ -40,7 +40,7 @@ int main()
     while (inputdata >> name >> var1 >> var2)
     {
         //Comprueba que no se ha pasado a definir los tuneles
-        if (name=="NOMORENODESFLAG")
+        if (name=="NoMoreNodesFLAG")
         {
             // std::cout << "se salio";
             break;
@@ -88,14 +88,16 @@ int main()
     //crear tantos objeto sewgmentos como numero de segmento
 
 
-    float len, wid, hei, slo;
+    float len, wid, hei, slo,longitud;
     while (inputdata >> tunnel >> start >> final >> nuseg)
     {
 
 
         tuneles[i].setname(tunnel);
-        tuneles[i].setstartnode(start,nodos);
-        tuneles[i].setfinalnode(final,nodos);
+        tuneles[i].setstartnode(start);
+        tuneles[i].setfinalnode(final);
+        //tuneles[i].setstartnode(start,nodos);
+        //tuneles[i].setfinalnode(final,nodos);
         tuneles[i].setnumberofsegments(nuseg);
 
         for (int j=0;j<nuseg;j++)
@@ -110,12 +112,12 @@ int main()
             segcounter++;
         }
 
-
+        longitud=tuneles[i].getlength();
 
 
         tuneles[i].printtunnel();
 
-        enlaces.push_back({start,final}); //creates links in the node adjacency list
+        enlaces.push_back({start,final,longitud}); //creates links in the node adjacency list
         i++;
     }
 
@@ -128,6 +130,8 @@ int main()
 
     std::cout << std::endl;
     std::cout << "------Node adjacency list------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
     std::cout << std::endl;
 
     // construct grafo

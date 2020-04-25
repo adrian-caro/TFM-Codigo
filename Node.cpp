@@ -55,3 +55,8 @@ void Node::printname()
 {
     std::cout << nodenumber;
 }
+
+void Node::addOOI(OOI *ooi)
+{
+    OOIs.push_back(ooi);
+}

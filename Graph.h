@@ -7,13 +7,15 @@ using namespace std;
 
 struct Enlace {
     int nodofuente, nododestino;
+    float length;
 };
+typedef pair<int, int> Pair;
 
 class Grafo
 {
 private:
 
-    vector<vector<int>> ListaAdyacencia;
+    vector<vector<Pair>> ListaAdyacencia;
 public:
 
     Grafo(vector<Enlace> const& enlaces, int N);

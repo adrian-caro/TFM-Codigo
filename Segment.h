@@ -11,6 +11,7 @@ private:
 public:
     Segment();
     void setlength(float n);
+    float getlength();
     void setheight(float n);
     void setwidth(float n);
     void setslope(float n);
