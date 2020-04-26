@@ -20,6 +20,7 @@ public:
 
     Grafo(vector<Enlace> const& enlaces, int N);
     void printGraph(Grafo const& grafo, int N);
+    vector<vector<Pair>> getlista();
 };
 
 #endif // GRAPH_H

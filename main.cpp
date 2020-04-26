@@ -2,6 +2,7 @@
 #include "Tunnel.h"
 #include "Graph.h"
 #include "Segment.h"
+#include "Dijkstra.h"
 
 #include <iostream>
 #include <fstream>
@@ -140,7 +141,11 @@ int main()
     // print adjacency list representation of grafo
     grafo.printGraph(grafo, N);
     std::cout << std::endl;
-    return 0;
+
     //nodos[1].printnode();
 
+    Dijkstra search(4,6,grafo.getlista());
+    search.algorithm();
+    std::cout << std::endl;
+    return 0;
 }

@@ -75,3 +75,8 @@ void Grafo::printGraph(Grafo const& graf, int N)
         cout << endl;
     }
 }
+
+vector<vector<Pair>> Grafo::getlista()
+{
+    return ListaAdyacencia;
+}
