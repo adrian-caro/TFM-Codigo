@@ -22,16 +22,16 @@ public:
     //Tunnel(std::string nam, int len, int slo,int hei, int wid, int num);
     ~Tunnel();
     void printtunnel();
+    void reverseprinttunnel();
     void setname(std::string n);
     void setnumberofsegments(int n);
+    int getnumberofsegments();
     float getlength();
     vector<int> getendings();
     void setstartnode(int n);
     void setfinalnode(int n);
-    //void setstartnode(int n, Node *nod);
-    //void setfinalnode(int n, Node *nod);
-    //Node getendings();
     void addsegment(Segment *seg);
+    vector<Segment*> getsegments();
     void addOOI(OOI *ooi);
 
 };

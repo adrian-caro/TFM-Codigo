@@ -50,6 +50,32 @@ void Tunnel::printtunnel() //prints node info
     std::cout << std::endl;std::cout << std::endl;
 }
 
+void Tunnel::reverseprinttunnel() //prints node info
+{
+    cout << "Tunnel:" << name << "\t";
+    std::cout << "Ending nodes: ";
+    //endings[0]->printname();
+    std::cout << endings[1];
+    std::cout << "-";
+    std::cout << endings[0];
+    //endings[1]->printname();
+    std::cout << "\t";
+    std::cout << "Length:";
+    std::cout << length;
+    std::cout << "\t";
+    std::cout << "Number of segments:" << numberofsegments << std::endl;
+    std::cout << std::endl;
+
+    for (int i=numberofsegments-1;i>-1;i--)
+    {
+        std::cout << "\t\t-Segment " << name << "-" << (i) << "\t";
+        segments[i]->printsegments();
+        //std::cout << std::endl;
+    }
+    std::cout << std::endl;std::cout << std::endl;
+}
+
+
 void Tunnel::setname(std::string n)
 {
     name=n;
@@ -103,4 +129,14 @@ void Tunnel::addOOI(OOI *ooi)
 vector<int> Tunnel::getendings()
 {
     return endings;
+}
+
+int Tunnel::getnumberofsegments()
+{
+    return numberofsegments;
+}
+
+vector<Segment*> Tunnel::getsegments()
+{
+    return segments;
 }

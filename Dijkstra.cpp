@@ -12,7 +12,7 @@ Dijkstra::Dijkstra(int sta, int goa,vector<vector<Pair>> n)
 
 }
 
-void Dijkstra::algorithm()
+vector<int> Dijkstra::algorithm()
 {
     int solucionado=0; //just a flag for finishing
     int primermuerto=0;
@@ -49,7 +49,7 @@ void Dijkstra::algorithm()
         //in case that chosen node is solution, finish the execution.
         if (open[position].at(0) == nodegoal)
         {
-            std::cout << "Solution found" << std::endl;
+            //std::cout << "Solution found" << std::endl;
             closed.push_back(open[position]);
             solucionado=1;
             break;
@@ -80,14 +80,14 @@ void Dijkstra::algorithm()
 
         // variables
          int node;
-         //int length;
+         int length;
          int alreadyinclose=0;
          int alreadyinopen=0;
          //now all links with other nodes are explored
          for (std::vector<Pair>::iterator it = nodelist[indextoevaluate].begin(); it !=nodelist[indextoevaluate].end(); ++it)
          {
              node=it->first;
-             //length=it->second;
+             length=it->second;
 
 
              //1.check if this node already exists in closed list
@@ -123,7 +123,7 @@ void Dijkstra::algorithm()
                  //2.2 if it isnt in open, then adds it.
                  if (alreadyinopen==0)
                  {
-                     open.push_back({node,0,open[position].at(2)+1,open[position].at(2)+1+0,fatherindex});
+                     open.push_back({node,length,open[position].at(2)+1,open[position].at(2)+1+0,fatherindex});
                      //[node,heuristic,cost,function (h+c),parent]
                  }
 
@@ -145,12 +145,13 @@ void Dijkstra::algorithm()
     {
         std::cout << "No solution found." << std::endl;
     }
-
+    vector<int> path;
     if (solucionado==1)
     {
         //Now takes part the backtracking of the nodes solution path.
 
-        vector<int> path;
+
+
 
         //int final;
         int i=closed.size()-1;
@@ -158,6 +159,7 @@ void Dijkstra::algorithm()
         while (closed[i].at(4)!=-1)
         {
             path.push_back(closed[i].at(0));
+
             i=closed[i].at(4);
         }
 
@@ -175,5 +177,5 @@ void Dijkstra::algorithm()
     }
         std::cout << std::endl;
 
-
+        return path;
 }
