@@ -1,34 +1,66 @@
-//Node nodenumber numberofexits
+//Node nodenumber numberofexits //height width HorizontalOrientation VerticalOrientation
+
 Entry 0 1
+    11 22 45 55
+
 Main 1 4
+    33 44 63 66
+    55 66 56 66
+    77 88 24 62
+    22 33 46 75
+
 N2 2 2
+    34 55 63 52.6
+    55 66 56 62
+
 N3 3 3
+    33 46 234.5 11
+    22 45 32 44
+    22 56 24 66
+
 N4 4 2
+    33 55 23 65.5
+    33 56 123 85
+
 N5 5 3
+    77 88 56.3 73.6
+    66 33 45 67
+    22 545 23 77
+
 N6 6 2
+    44 55 56.3 22
+    33 77 56 76
+
 NoMoreNodesFLAG 0 0
 //Tunnel startnode finalnode numberofsegments //EachSegmentlenght width height slope
-T1 0 1 3
-2 1 1 1
-2 1 1 2
-1 1 1 3
-T2 1 2 3
-1 1 1 1
-1 1 1 2
-1 1 1 3
-T3 2 3 3
-2 2 2 1
-2 2 2 2
-2 2 2 3
-T4 3 4 2
-3 3 3 1
-3 3 3 2
-T5 3 5 1
-4 4 4 1
-T6 5 1 2
-5 5 5 1
-5 5 5 2
-T7 5 6 1
-6 6 6 1
+
+Tunnel1 0 1 3
+    2 1 1 1
+    2 1 1 2
+    1 1 1 3
+
+Tunnel2 1 2 3
+    1 1 1 1
+    1 1 1 2
+    1 1 1 3
+
+Tunnel3 2 3 3
+    2 2 2 1
+    2 2 2 2
+    2 2 2 3
+
+Tunnel4 3 4 2
+    3 3 3 1
+    3 3 3 2
+
+Tunnel5 3 5 1
+    4 4 4 1
+
+Tunnel6 5 1 2
+    5 5 5 1
+    5 5 5 2
+
+Tunnel7 5 6 1
+    6 6 6 1
 
 

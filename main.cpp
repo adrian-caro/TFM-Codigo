@@ -16,7 +16,7 @@ int main()
 
     //definitions
     int startnode, goalnode;
-    inputdata.open("/home/adri/Datos/Git/TFM-Codigo/data.txt");
+    inputdata.open("/home/adri/Git/TFM-Codigo/data.txt");
 
 
     //Checks the openned file
@@ -32,10 +32,14 @@ int main()
     inputdata >> junkheader1;
     inputdata >> junkheader1;
     inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
 
     string name;
-    int var1;
-    int var2;
+    int var1,var2;
+    float var3, var5, var6, var4;
 
     std::cout << "------Nodes input------" << std::endl;
     std::cout << std::endl;
@@ -56,6 +60,14 @@ int main()
         nodos[i].settype(name);
         nodos[i].setnodenumber(var1);
         nodos[i].setnumberofexits(var2);
+
+        for (int j=0;j<var2;j++)
+        {
+            inputdata>> var3 >> var4 >> var5 >> var6;
+
+            nodos[i].setexitprop(var3,var4,var5,var6);
+        }
+
         nodos[i].printnode();
 
         i++;

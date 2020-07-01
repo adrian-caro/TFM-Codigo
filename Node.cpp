@@ -42,8 +42,21 @@ void Node::addtunnel()
 
 void Node::printnode() //prints node info
 {
-    std::cout << "Node:" << nodenumber << "\t" << " Name:" << type << "\t" <<  "Number of exits:" << numberofexits << std::endl;
+    std::cout << "Node:" << nodenumber << "\t" << " Name:" << type;
+    std::cout << "\t" <<  "Number of exits:" << numberofexits << std::endl;
+    std::cout << std::endl;
 
+    for (int i=0;i<numberofexits;i++)
+    {
+
+        std::cout << "\t\t-Node Exit " << (i+1) << "\t";
+        std::cout << "Height:" << ExitProp[i].at(0) << "\t";
+        std::cout << "Width:" << ExitProp[i].at(1) << "\t";
+        std::cout << "Hor. orientation:" << ExitProp[i].at(2) << "\t";
+        std::cout << "Ver. orientation:" << ExitProp[i].at(3)<< std::endl;
+
+
+    }std::cout << std::endl;
 }
 
 void Node::printexits() //Esta se va a utilizar para imprimir los tuneles que tiene un nodo
@@ -59,4 +72,19 @@ void Node::printname()
 void Node::addOOI(OOI *ooi)
 {
     OOIs.push_back(ooi);
+}
+
+void Node::setheight(float n)
+{
+    height=n;
+}
+
+void Node::setwidth(float n)
+{
+    width=n;
+}
+
+void Node::setexitprop(float hei, float wid, float Hori, float Vori)
+{
+    ExitProp.push_back({hei,wid,Hori,Vori});
 }

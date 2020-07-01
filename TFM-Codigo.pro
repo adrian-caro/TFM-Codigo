@@ -22,4 +22,5 @@ HEADERS += \
     Dijkstra.h
 
 DISTFILES += \
-    data.txt
+    data.txt \
+    exploration.txt
