@@ -87,7 +87,7 @@ int main()
 
 
     Tunnel tuneles[10];
-    vector<Segment> segments(100);
+    vector<Segment> segments(30);
 
 
 
@@ -140,7 +140,7 @@ int main()
     std::cout << std::endl;
 
     //Constructs the graph
-    Grafo grafo(enlaces, N);
+    Grafo grafo(enlaces, N,nodos);
 
     //Print adjacency list representation of the graph
     grafo.printGraph(grafo, N);

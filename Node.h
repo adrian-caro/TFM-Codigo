@@ -17,13 +17,14 @@ private:
         std::string type;
         int nodenumber;
 
-        float position[3];
-        Tunnel *exits[10];
+        //float position[3];
+        //Tunnel *exits[10];
         std::vector<OOI*> OOIs;
         float height;
         float width;
 
         int numberofexits;
+        vector<int> nodosconectados;
         vector<vector<float>> ExitProp;
         // float Horientation; //Horizontal orientation. From north, cloclwise.
         // float Vorientation; //Vertical orientation. From horizontal, going up.
@@ -42,6 +43,7 @@ public:
     void setheight(float n);
     void setwidth(float n);
     void setexitprop(float hei, float wid, float Hori, float Vori);
+    void addnodoconectado(int n);
 };
 
 

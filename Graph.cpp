@@ -4,7 +4,7 @@ using namespace std;
 
 
 //Creates a graph
-Grafo::Grafo(vector<Enlace> const& enlaces, int N)
+Grafo::Grafo(vector<Enlace> const& enlaces, int N,Node *nodos)
 {
     // Resize
     ListaAdyacencia.resize(N);
@@ -32,6 +32,7 @@ Grafo::Grafo(vector<Enlace> const& enlaces, int N)
         if (nointroducir == 0)
         {
             ListaAdyacencia[enlace.nodofuente].push_back(make_pair(enlace.nododestino,enlace.length));
+            nodos[enlace.nodofuente].addnodoconectado(enlace.nododestino);
         }
 
 
@@ -54,6 +55,7 @@ Grafo::Grafo(vector<Enlace> const& enlaces, int N)
         if (nointroducir == 0)
         {
             ListaAdyacencia[enlace.nododestino].push_back(make_pair(enlace.nodofuente,enlace.length));
+            nodos[enlace.nododestino].addnodoconectado(enlace.nodofuente);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

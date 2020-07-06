@@ -5,21 +5,21 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     Node.cpp \
-    Room.cpp \
     Tunnel.cpp \
     Graph.cpp \
     Segment.cpp \
     OOI.cpp \
-    Dijkstra.cpp
+    Dijkstra.cpp \
+    Exploration.cpp
 
 HEADERS += \
     Node.h \
-    Room.h \
     Tunnel.h \
     Graph.h \
     Segment.h \
     OOI.h \
-    Dijkstra.h
+    Dijkstra.h \
+    Exploration.h
 
 DISTFILES += \
     data.txt \

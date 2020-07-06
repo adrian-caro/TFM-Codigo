@@ -88,3 +88,8 @@ void Node::setexitprop(float hei, float wid, float Hori, float Vori)
 {
     ExitProp.push_back({hei,wid,Hori,Vori});
 }
+
+void Node::addnodoconectado(int n)
+{
+    nodosconectados.push_back(n);
+}
