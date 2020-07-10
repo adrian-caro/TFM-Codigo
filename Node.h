@@ -42,8 +42,16 @@ public:
     void addOOI(OOI *ooi);
     void setheight(float n);
     void setwidth(float n);
-    void setexitprop(float hei, float wid, float Hori, float Vori);
+    void setexitprop(int connectednode, float hei, float wid, float Hori, float Vori);
     void addnodoconectado(int n);
+
+    string gettype();
+    int getnumberofexits();
+    int getnodenumber();
+    float getexitprop(int salida, int prop);
+    //OOI* getOOI();
+
+
 };
 
 

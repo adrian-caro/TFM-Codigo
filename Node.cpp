@@ -10,7 +10,10 @@
 //}
 Node::Node()
 {
-
+    nodenumber=0;
+    height=0;
+    width=0;
+    numberofexits=0;
 }
 
 Node::~Node()
@@ -84,12 +87,32 @@ void Node::setwidth(float n)
     width=n;
 }
 
-void Node::setexitprop(float hei, float wid, float Hori, float Vori)
+void Node::setexitprop(int connectednode, float hei, float wid, float Hori, float Vori)
 {
-    ExitProp.push_back({hei,wid,Hori,Vori});
+    ExitProp.push_back({connectednode, hei,wid,Hori,Vori});
 }
 
 void Node::addnodoconectado(int n)
 {
     nodosconectados.push_back(n);
+}
+
+float Node::getexitprop(int salida, int prop)
+{
+    return ExitProp[salida].at(prop);
+}
+
+int Node::getnodenumber()
+{
+    return nodenumber;
+}
+
+int Node::getnumberofexits()
+{
+    return numberofexits;
+}
+
+string Node::gettype()
+{
+    return type;
 }

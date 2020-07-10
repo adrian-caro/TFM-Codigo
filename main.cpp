@@ -3,6 +3,7 @@
 #include "Graph.h"
 #include "Segment.h"
 #include "Dijkstra.h"
+#include "Exploration.h"
 
 #include <iostream>
 #include <fstream>
@@ -38,7 +39,7 @@ int main()
     inputdata >> junkheader1;
 
     string name;
-    int var1,var2;
+    int var1,var2, var7;
     float var3, var5, var6, var4;
 
     std::cout << "------Nodes input------" << std::endl;
@@ -63,9 +64,9 @@ int main()
 
         for (int j=0;j<var2;j++)
         {
-            inputdata>> var3 >> var4 >> var5 >> var6;
+            inputdata >> var7 >> var3 >> var4 >> var5 >> var6;
 
-            nodos[i].setexitprop(var3,var4,var5,var6);
+            nodos[i].setexitprop(var7,var3,var4,var5,var6);
         }
 
         nodos[i].printnode();
@@ -235,6 +236,9 @@ int main()
     }
 
 
-    std::cout << std::endl;
+    std::cout << std::endl;\
+    Exploration exploration1;
+
+    exploration1.sensoreadings(1,nodos);
     return 0;
 }
