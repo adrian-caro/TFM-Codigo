@@ -8,15 +8,17 @@ class Node;
 class Exploration
 {
 private:
-    float dH,dC,dAlpha,dBeta;
-    float P;
-    float K;
+    //vec<vec<float>> difference; //Pi,dH,dC,dAlpha,dBeta;
+    //float Pnode;
+
+    //float K;
     Node explorationnodes[10];
 
 public:
     Exploration();
-    //void explorationalgorithm(int nodoini,Node *nodos,vector<int> solutionpath);
-    void sensoreadings(int nodenumber,Node *nodos);
+    void explorationalgorithm(Node *nodos,vector<int> solutionpath);
+    void sensoreadings(int nodenumber, Node *nodos);
+    float nodecomparison(int realnode, int mapnode, Node *nodos);
 };
 
 #endif // EXPLORATION_H

@@ -22,5 +22,4 @@ HEADERS += \
     Exploration.h
 
 DISTFILES += \
-    data.txt \
-    exploration.txt
+    data.txt

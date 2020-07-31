@@ -180,11 +180,11 @@ int main()
     }while(search!=0 && search!=1);
 
 
-
+    vector<int> solutionpath;
     if (search==1)
     {
         //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
-        vector<int> solutionpath;
+
         Dijkstra search(startnode,goalnode,grafo.getlista());
         solutionpath=search.algorithm();
         int a,b;
@@ -240,5 +240,9 @@ int main()
     Exploration exploration1;
 
     exploration1.sensoreadings(1,nodos);
+    float Pnodevariation=exploration1.nodecomparison(1,1,nodos);
+
+    exploration1.explorationalgorithm(nodos,solutionpath);
+
     return 0;
 }
