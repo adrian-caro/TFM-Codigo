@@ -14,7 +14,7 @@ float Exploration::nodecomparison(int realnode, int mapnode, Node *nodos)
     int salidas=nodos[realnode].getnumberofexits();
     int nexitstocompare=1;
     float Pnodevariation=0;
-    std::cout << "Nodes to compare:  real-" << explorationnodes[realnode].getnodenumber() << " and expected-" << nodos[mapnode].getnodenumber() << std::endl;
+    std::cout << "Nodes to compare:  real (" << explorationnodes[realnode].getnodenumber() << ") and expected (" << nodos[mapnode].getnodenumber()<< ")" << std::endl;
     if (salidas!=nodos[mapnode].getnumberofexits())
     {
         if (salidas<nodos[mapnode].getnumberofexits())
@@ -185,28 +185,46 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
         std::cout << "Tunnel transition. "<< std::endl;
         //Bad tunnel probability
         float badtunnel =  static_cast <float> (rand()) /( static_cast <float> (RAND_MAX));
-        float Pbadtunn=0.3; //probability of choosing a bad tunnel
+        float Pbadtunn=0.15; //probability of choosing a bad tunnel
         float Pnodevariation;
+
         if (badtunnel<Pbadtunn)
         {
-            if (badtunnel<Pbadtunn/2)//Probability of going to the lower next tunnel
+
+            //chosenexit=chosenexit-1;
+            int num;
+            num=chosenexit;
+            if (explorationnodes[actualnode].getnumberofexits()==2)
             {
-                if (chosenexit!=0)
+                if (chosenexit==1)
                 {
-                    chosenexit=chosenexit-1;
-                    realnextnode=explorationnodes[actualnode].getexitprop(chosenexit,0);
+                    num=0;
+                    std::cout << "***BAD TUNNEL CHOSEN***. "<< std::endl;
+                }
+                else
+                {
+                    num=1;
                     std::cout << "***BAD TUNNEL CHOSEN***. "<< std::endl;
                 }
             }
-            else //Probability of going to the upper next tunnel
+            else if (explorationnodes[actualnode].getnumberofexits()==1)
             {
-                if (chosenexit!=salidas-1)
-                {
-                    chosenexit=chosenexit+1;
-                    realnextnode=explorationnodes[actualnode].getexitprop(chosenexit,0);
-                    std::cout << "***BAD TUNNEL CHOSEN***. "<< std::endl;
-                }
+                num=0;
             }
+            else
+            {
+                while (num==chosenexit)
+                {
+                    int lower=0;
+                    int upper=explorationnodes[actualnode].getnumberofexits()-1;
+                    num = (rand() % (upper - lower + 1)) + lower;
+
+                }
+                std::cout << "***BAD TUNNEL CHOSEN***. "<< std::endl;
+            }
+            chosenexit=num;
+            realnextnode=explorationnodes[actualnode].getexitprop(chosenexit,0);
+
 
         }
 
@@ -284,7 +302,7 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
         {
             //Bad comparison
 
-            //if teh actualnode is the first node there is no past node
+            //if the actualnode is the first node there is no past node
             if (actualnode!=solutionpath[0])
             {
                 std::cout << "Node " << expectednextnode << " missed. Checking for mistakes in previous tunnel choice."<< std::endl;

@@ -239,8 +239,8 @@ int main()
     std::cout << std::endl;\
     Exploration exploration1;
 
-    exploration1.sensoreadings(1,nodos);
-    float Pnodevariation=exploration1.nodecomparison(1,1,nodos);
+    //exploration1.sensoreadings(1,nodos);
+    //float Pnodevariation=exploration1.nodecomparison(1,1,nodos);
 
     exploration1.explorationalgorithm(nodos,solutionpath);
 
