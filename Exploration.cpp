@@ -112,7 +112,7 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
 
 }
-void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
+void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunnel *tuneles,int numtuneles)
 {
 
 
@@ -136,7 +136,7 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
 
 
 
-    while (actualnode!=solutionpath[solutionpath.size()]-1) //Revisar la condicion y los actualnodes
+    while (actualnode!=solutionpath[solutionpath.size()-1]) //Revisar la condicion y los actualnodes
     {
 
 
@@ -185,7 +185,7 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
         std::cout << "Tunnel transition. "<< std::endl;
         //Bad tunnel probability
         float badtunnel =  static_cast <float> (rand()) /( static_cast <float> (RAND_MAX));
-        float Pbadtunn=0.15; //probability of choosing a bad tunnel
+        float Pbadtunn=0.45; //probability of choosing a bad tunnel
         float Pnodevariation;
 
         if (badtunnel<Pbadtunn)
@@ -225,6 +225,42 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
             chosenexit=num;
             realnextnode=explorationnodes[actualnode].getexitprop(chosenexit,0);
 
+        }
+
+        //Tunnel print
+        int a=actualnode;
+        int b=realnextnode;
+        vector<int> temp;
+
+        for(int j=0;j<numtuneles;j++)
+        {
+            temp=tuneles[j].getendings();
+
+
+            if(temp.at(0)==a && temp.at(1)==b)
+            {
+                //segmentemp=tuneles[j].getsegments();
+                std::cout << std::endl;
+                tuneles[j].printtunnel();
+                std::cout << std::endl;
+                //                for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
+                //                {
+                //                    segmentpath.push_back(segmentemp.at(i));
+                //                }
+            }
+
+
+            if(temp.at(0)==b && temp.at(1)==a)
+            {
+                std::cout << std::endl;
+                tuneles[j].reverseprinttunnel();
+                std::cout << std::endl;
+                //                segmentemp=tuneles[j].getsegments();
+                //                for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
+                //                {
+                //                    segmentpath.push_back(segmentemp.at(i));
+                //                }
+            }
 
         }
 
@@ -321,6 +357,45 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath)
                         std::cout << "Choosing the correct tunnel."<< std::endl;
                         //PRINT HERE TUNNEL CHANGE
                         std::cout << "Going back to the previous node."<< std::endl;
+
+                        //Tunnel print
+                        int a=actualnode;
+                        int b=pastnode;
+                        vector<int> temp;
+
+                        for(int j=0;j<numtuneles;j++)
+                        {
+                            temp=tuneles[j].getendings();
+
+
+                            if(temp.at(0)==a && temp.at(1)==b)
+                            {
+                                //segmentemp=tuneles[j].getsegments();
+                                std::cout << std::endl;
+                                tuneles[j].printtunnel();
+                                std::cout << std::endl;
+                                //                for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
+                                //                {
+                                //                    segmentpath.push_back(segmentemp.at(i));
+                                //                }
+                            }
+
+
+                            if(temp.at(0)==b && temp.at(1)==a)
+                            {
+                                std::cout << std::endl;
+                                tuneles[j].reverseprinttunnel();
+                                std::cout << std::endl;
+                                //                segmentemp=tuneles[j].getsegments();
+                                //                for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
+                                //                {
+                                //                    segmentpath.push_back(segmentemp.at(i));
+                                //                }
+                            }
+
+                        }
+
+
                         std::cout << "Previous node (" << pastnode << ") reached correctly."<< std::endl;
                         actualnode=pastnode;
                         notfound=0;

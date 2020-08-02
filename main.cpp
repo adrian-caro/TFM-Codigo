@@ -190,7 +190,7 @@ int main()
         int a,b;
 
             std::cout << std::endl;
-        std::cout << "Solution tunnel and segments sequence:" << std::endl;
+        //std::cout << "Solution tunnel and segments sequence:" << std::endl;
             std::cout << std::endl;
 
         vector<Segment*> segmentpath,segmentemp;
@@ -209,7 +209,7 @@ int main()
                 if(temp.at(0)==a && temp.at(1)==b)
                 {
                     segmentemp=tuneles[j].getsegments();
-                    tuneles[j].printtunnel();
+                    //tuneles[j].printtunnel();
                     for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
                     {
                         segmentpath.push_back(segmentemp.at(i));
@@ -219,7 +219,7 @@ int main()
 
                 if(temp.at(0)==b && temp.at(1)==a)
                 {
-                    tuneles[j].reverseprinttunnel();
+                    //tuneles[j].reverseprinttunnel();
                     segmentemp=tuneles[j].getsegments();
                     for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
                     {
@@ -242,7 +242,7 @@ int main()
     //exploration1.sensoreadings(1,nodos);
     //float Pnodevariation=exploration1.nodecomparison(1,1,nodos);
 
-    exploration1.explorationalgorithm(nodos,solutionpath);
+    exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles);
 
     return 0;
 }
