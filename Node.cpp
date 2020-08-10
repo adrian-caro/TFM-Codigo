@@ -1,13 +1,6 @@
 #include "Node.h"
 #include <iostream>
 
-
-//Node::Node(std::string t, int nn, int ne)
-//{
-//    type=t;
-//    numberofexits=ne;
-//    nodenumber=nn;
-//}
 Node::Node()
 {
     nodenumber=0;
@@ -62,7 +55,7 @@ void Node::printnode() //prints node info
     }std::cout << std::endl;
 }
 
-void Node::printexits() //Esta se va a utilizar para imprimir los tuneles que tiene un nodo
+void Node::printexits()
 {
     // std::cout << "Exits: " << exits[]->printtunnel() << std::endl;
 }

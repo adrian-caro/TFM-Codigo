@@ -8,13 +8,15 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <time.h>
 using namespace std;
+
 
 
 int main()
 {
     ifstream inputdata;
-
+    srand(time(NULL));
     //definitions
     int startnode, goalnode;
     inputdata.open("/home/adri/Git/TFM-Codigo/data.txt");
@@ -46,8 +48,8 @@ int main()
     std::cout << std::endl;
 
 
-    Node nodos[10];
-    int i=0, N; // N=Number of nodes in the graph
+    Node nodos[100];
+    int i=0, Numnodos; // N=Number of nodes in the graph
 
     while (inputdata >> name >> var1 >> var2)
     {
@@ -76,7 +78,7 @@ int main()
 
 
     //Jumps header data
-    N=i;
+    Numnodos=i;
     inputdata >> junkheader1;
     inputdata >> junkheader1;
     inputdata >> junkheader1;
@@ -87,7 +89,7 @@ int main()
     inputdata >> junkheader1;
 
 
-    Tunnel tuneles[10];
+    Tunnel tuneles[100];
     vector<Segment> segments(30);
 
 
@@ -141,10 +143,10 @@ int main()
     std::cout << std::endl;
 
     //Constructs the graph
-    Grafo grafo(enlaces, N,nodos);
+    Grafo grafo(enlaces, Numnodos,nodos);
 
     //Print adjacency list representation of the graph
-    grafo.printGraph(grafo, N);
+    grafo.printGraph(grafo, Numnodos);
     std::cout << std::endl;
 
     std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
@@ -239,10 +241,11 @@ int main()
     std::cout << std::endl;\
     Exploration exploration1;
 
-    //exploration1.sensoreadings(1,nodos);
-    //float Pnodevariation=exploration1.nodecomparison(1,1,nodos);
-
     exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles);
 
+
+    int asd=exploration1.lost(nodos,Numnodos,5);
+
     return 0;
+
 }

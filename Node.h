@@ -14,26 +14,20 @@ class Node{
 
 private: 
 
-        std::string type;
-        int nodenumber;
+    std::string type;
+    int nodenumber;
+    std::vector<OOI*> OOIs;
+    float height;
+    float width;
+    int numberofexits;
+    vector<int> nodosconectados;
+    vector<vector<float>> ExitProp;
 
-        //float position[3];
-        //Tunnel *exits[10];
-        std::vector<OOI*> OOIs;
-        float height;
-        float width;
-
-        int numberofexits;
-        vector<int> nodosconectados;
-        vector<vector<float>> ExitProp;
-        // float Horientation; //Horizontal orientation. From north, cloclwise.
-        // float Vorientation; //Vertical orientation. From horizontal, going up.
 public:
     Node();
-        //Node(std::string t, int nn, int ne);
     ~Node();
     void settype(std::string n);
-    void setnumberofexits(int n); //Por si luego se quieren cambiar
+    void setnumberofexits(int n);
     void setnodenumber(int n);
     void addtunnel();
     void printnode();

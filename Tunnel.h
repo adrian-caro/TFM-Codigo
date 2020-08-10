@@ -10,16 +10,15 @@ class Node;
 class Tunnel{
 
 private:
-        std::string name;
-        //Node *endings[2];
-        std::vector<int> endings;
-        int numberofsegments;
-        float length;
-        vector<Segment*> segments;
-        vector<OOI*> OOIs;
+    std::string name;
+    //Node *endings[2];
+    std::vector<int> endings;
+    int numberofsegments;
+    float length;
+    vector<Segment*> segments;
+    vector<OOI*> OOIs;
 public:
     Tunnel();
-    //Tunnel(std::string nam, int len, int slo,int hei, int wid, int num);
     ~Tunnel();
     void printtunnel();
     void reverseprinttunnel();

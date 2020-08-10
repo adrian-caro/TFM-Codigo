@@ -16,7 +16,6 @@ public:
     void setshape(std::string n);
     void setposition_longit(float n);
     void setposition_deg(float n);
-
     void printOOI();
 };
 

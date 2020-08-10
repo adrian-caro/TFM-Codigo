@@ -5,8 +5,6 @@
 #include "Tunnel.h"
 #include <algorithm>
 
-
-//typedef pair<int, int> Pair;
 class Dijkstra
 {
 private:

@@ -8,16 +8,6 @@ Tunnel::Tunnel()
 {
     length=0;
 }
-//Tunnel::Tunnel(std::string nam, int len, int slo,int hei, int wid, int num)
-//{
-//    name=nam;
-//    length=len;
-//    slope=slo;
-//    height=hei;
-//    width=wid;
-//    numberofsegments=num;
-
-//}
 
 Tunnel::~Tunnel()
 {

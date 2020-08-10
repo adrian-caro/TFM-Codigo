@@ -1,12 +1,12 @@
 #include "Exploration.h"
 #include <time.h>
 #include <iostream>
+#include <random>
+#include <math.h>
 
 Exploration::Exploration()
 {
-//    dH=0,dC=0,dAlpha=0,dBeta=0;
-//    P=0;
-//    K=0;
+
 }
 float Exploration::nodecomparison(int realnode, int mapnode, Node *nodos)
 {
@@ -52,7 +52,7 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
     explorationnodes[nodenumber].setnumberofexits(nodos[nodenumber].getnumberofexits());
     int salidas=nodos[nodenumber].getnumberofexits();
     explorationnodes[nodenumber].setnodenumber(nodos[nodenumber].getnodenumber());
-    srand(time(NULL));
+
 
 
     int con; float he, wi, Hor,  Vor;
@@ -60,26 +60,40 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
 
     //Noise parameters
+
+    float Pheightvariation, Pwidthvariation, PHorivariation,PVorivariation;
+
+    random_device rd;
+    mt19937 mt(rd());
+
+    uniform_real_distribution<double> dist(-Pheightvariationmax, Pheightvariationmax);
+    Pheightvariation = dist(mt);
+
+    uniform_real_distribution<double> dist2(-Pwidthvariationmax, Pwidthvariationmax);
+    Pwidthvariation = dist2(mt);
+
+    uniform_real_distribution<double> dist3(-PHorivariationmax, PHorivariationmax);
+    PHorivariation = dist3(mt);
+
+    uniform_real_distribution<double> dist4(-PVorivariationmax, PVorivariationmax);
+    PVorivariation = dist4(mt);
+
+
+
+
+    //float Pnumberofexitsvariation=0.2;
     //--------------------------------------
 
-    float Pheightvariation=0.1;
-    float Pwidthvariation=0.1;
-    float PHorivariation=0.1;
-    float PVorivariation=0.1;
-
-    float Pnumberofexitsvariation=0.2;
-    //--------------------------------------
-
-    float nodevariation=0;
-    nodevariation=((float) rand()) / (float) RAND_MAX;
+    //float nodevariation=0;
+    //nodevariation=((float) rand()) / (float) RAND_MAX;
 
 
 
-//Probabilidad de que no detecte una salida
-//    if (nodevariation<Pnumberofexitsvariation)
-//    {
-//        int deletedexit= + ( (int) rand() % ( 5-1) );
-//    }
+    //Probabilidad de que no detecte una salida
+    //    if (nodevariation<Pnumberofexitsvariation)
+    //    {
+    //        int deletedexit= + ( (int) rand() % ( 5-1) );
+    //    }
 
     //que pasa a la hora de comparar con un nodo con menos salidas.
     for (int i=0;i<salidas;i++)
@@ -91,35 +105,40 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
         hei=nodos[nodenumber].getexitprop(i,1);
 
-        he = hei*(1+-Pheightvariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(Pheightvariation*2))));
+        //he = hei*(1+-Pheightvariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(Pheightvariation*2))));
+        he = hei*(1+Pheightvariation);
         //he=he+(-Pheightvariation + rand() % ( Pheightvariation*2 + 1 ));
 
         wid=nodos[nodenumber].getexitprop(i,2);
         //srand(time(NULL));
-        wi = wid*(1+-Pwidthvariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(Pwidthvariation*2))));
+        //wi = wid*(1+-Pwidthvariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(Pwidthvariation*2))));
+        wi = wid*(1+Pwidthvariation);
 
         Hori=nodos[nodenumber].getexitprop(i,3);
         //srand(time(NULL));
-        Hor = Hori*(1+-PHorivariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(PHorivariation*2))));
+        //Hor = Hori*(1+-PHorivariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(PHorivariation*2))));
+        Hor = Hori*(1+PHorivariation);
 
         Vori=nodos[nodenumber].getexitprop(i,4);
         //srand(time(NULL));
-        Vor = Vori*(1+-PVorivariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(PVorivariation*2))));
-
+        //Vor = Vori*(1+-PVorivariation + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(PVorivariation*2))));
+        Vor = Vori*(1+PVorivariation);
         explorationnodes[nodenumber].setexitprop(con,he,wi,Hor,Vor);
     }
 
 
 
 }
+
 void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunnel *tuneles,int numtuneles)
 {
 
 
     //it is assumed that the the robot is in the first node of the solution path firstly.
-
+    int first=-1;
+    //
     int solutionpathindex=0; //indicates the actual solution node where the robot is facing
-    int actualnode,i=0, pastnode=solutionpath[0];
+    int actualnode, pastnode=solutionpath[0];
     actualnode=solutionpath[0];
     std::cout << std::endl;
     std::cout << "------Exploration------" << std::endl;
@@ -134,12 +153,12 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
     sensoreadings(actualnode,nodos);
 
 
-
+    //float Pbadtunn=0.15; //probability of choosing a bad tunnel
 
     while (actualnode!=solutionpath[solutionpath.size()-1]) //Revisar la condicion y los actualnodes
     {
 
-
+        first++;//Because in the first iteration there must not be any past correction.
 
         //-------------------- Initial part--------------------------------------------------------------------------
 
@@ -167,8 +186,9 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
             //Añadir condicion cuando no encuentra la salida que se quiere
             expectednextnode=0;
             std::cout << "Error exit not found " << solutionpath[solutionpath.size()-1] << std::endl;
-            break;
             error=1;
+            break;
+
             //Ojo CAMBIAR
 
         }
@@ -185,11 +205,12 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
         std::cout << "Tunnel transition. "<< std::endl;
         //Bad tunnel probability
         float badtunnel =  static_cast <float> (rand()) /( static_cast <float> (RAND_MAX));
-        float Pbadtunn=0.45; //probability of choosing a bad tunnel
-        float Pnodevariation;
+
+        //float Pnodevariation;
 
         if (badtunnel<Pbadtunn)
         {
+
 
             //chosenexit=chosenexit-1;
             int num;
@@ -213,11 +234,21 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
             }
             else
             {
+                float temp;
                 while (num==chosenexit)
                 {
-                    int lower=0;
-                    int upper=explorationnodes[actualnode].getnumberofexits()-1;
-                    num = (rand() % (upper - lower + 1)) + lower;
+
+                    random_device rd;
+                    mt19937 mt(rd());
+
+                    uniform_real_distribution<double> dist(0.0, explorationnodes[actualnode].getnumberofexits()-1);
+                    temp = dist(mt);
+                    num=round(temp);
+
+//                    int lower=0;
+//                    int upper=explorationnodes[actualnode].getnumberofexits()-1;
+//                    num = (rand() % (upper - lower + 1)) + lower;
+                    //std::cout << num << std::endl;
 
                 }
                 std::cout << "***BAD TUNNEL CHOSEN***. "<< std::endl;
@@ -326,7 +357,9 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
             //actualnode=solutionpath[solutionpathindex];
             if (actualnode==solutionpath[solutionpath.size()-1])
             {
-                std::cout << "End node reached correctly. Ending program... " << std::endl;
+                std::cout << std::endl;
+                std::cout << "***** End node reached correctly *****" << std::endl;
+                std::cout << "Ending program... " << std::endl;
                 std::cout << std::endl;
                 break;
             }
@@ -339,8 +372,9 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
             //Bad comparison
 
             //if the actualnode is the first node there is no past node
-            if (actualnode!=solutionpath[0])
+            if (first!=0)
             {
+
                 std::cout << "Node " << expectednextnode << " missed. Checking for mistakes in previous tunnel choice."<< std::endl;
                 int notfound=1;
                 for (int i=0;i<explorationnodes[pastnode].getnumberofexits();i++) //gets the number of exits of the past node
@@ -370,14 +404,11 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
 
                             if(temp.at(0)==a && temp.at(1)==b)
                             {
-                                //segmentemp=tuneles[j].getsegments();
+
                                 std::cout << std::endl;
                                 tuneles[j].printtunnel();
                                 std::cout << std::endl;
-                                //                for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
-                                //                {
-                                //                    segmentpath.push_back(segmentemp.at(i));
-                                //                }
+
                             }
 
 
@@ -386,11 +417,7 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
                                 std::cout << std::endl;
                                 tuneles[j].reverseprinttunnel();
                                 std::cout << std::endl;
-                                //                segmentemp=tuneles[j].getsegments();
-                                //                for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
-                                //                {
-                                //                    segmentpath.push_back(segmentemp.at(i));
-                                //                }
+
                             }
 
                         }
@@ -421,5 +448,112 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
 }
 
 
-//Añadir condicion sobre que pasa al irse a un nodo 99
+
+
+int Exploration::lost(Node *nodos,int Numnodos,int actualnode)
+{
+    std::cout << "----- Robot lost -----" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Looking for the most probable current node according to similarities. " << std::endl;
+        //-------------------- Node read ----------------------------------------------------------------------
+
+        //The robot get the readings of the node
+        sensoreadings(actualnode,nodos);
+
+        //-------------------- Search node simmilarities ------------------------------------------------------------
+
+
+        vector<float> lostprobabilities;
+        int indexmax=0;
+        float valuemax=0;
+        float tempcompare;
+        //-----------------------------------------
+        std::cout.setstate(std::ios_base::failbit);
+        //-----------------------------------------
+
+        for (int i=0;i<Numnodos;i++)
+        {
+            tempcompare=nodecomparison(actualnode,i,nodos);
+            lostprobabilities.push_back(tempcompare);
+            std::cout << " P = " << tempcompare << std::endl;
+            if (lostprobabilities.at(i)>valuemax)
+            {
+                valuemax=lostprobabilities.at(i);
+                indexmax=i;
+            }
+        }
+        //-----------------------------------------
+        std::cout.clear();
+        //-----------------------------------------
+
+        actualnode=indexmax;
+
+        std::cout << "Node (" << actualnode << ") is the most probable current node." << std::endl;
+        std::cout << std::endl;
+        return actualnode;
+
+//        //-------------------- Two possibilities ----------------------------------------------------------------------
+
+
+
+//        if (valuemax>0.5)//Lost node is a known node
+//        {
+
+//            actualnode=indexmax;
+
+//            if (nolink==0) //Means its not the first node discovered in a row.
+//            {
+//                //Needs to create a link between nodes
+
+//                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//            }
+//            fin=1;
+//            return actualnode;
+//        }
+//        else //Lost node is an unknwon node
+//        {
+
+//            //-------------------- Register the node ----------------------------------------------------------------------
+
+//            std::cout << "Actual node doesnt match any map node. Registering the node." << std::endl;
+//            actualnode=Numnodos;
+//            Numnodos++;
+
+//            explorationnodes[actualnode].setnodenumber(actualnode+1); //OJO revisar
+//            //Hacer que lea los datos de un fichero pero como si los hubiese obtenido de los sensores
+
+//            //-------------------- Link if needed ----------------------------------------------------------------------
+
+//            if (nolink==0) //Means its not the first node discovered in a row.
+//            {
+//                //Needs to create a link between nodes
+
+
+//            }
+
+//            //-------------------- Exit selection ----------------------------------------------------------------------
+
+//            //Hacerlo ir por una salida random
+//            int num;
+//            int lower=0;
+//            int upper=explorationnodes[actualnode].getnumberofexits()-1;
+//            num = (rand() % (upper - lower + 1)) + lower;
+//            std::cout << num << std::endl;
+
+//            //-------------------- Register the tunnel ----------------------------------------------------------------------
+
+//            //Ir creando tunel segun avanza por la ruta
+
+
+
+
+//            //New node arrived
+
+//            nolink=0;
+//        }
+
+
+//        //Tener en cuenta que pasa si llega a un nodo desconocido ciego.
+
+}
 

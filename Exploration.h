@@ -3,20 +3,25 @@
 #include "Node.h"
 #include "Tunnel.h"
 
+#define Pheightvariationmax 0.15
+#define Pwidthvariationmax 0.15
+#define PHorivariationmax 0.15
+#define PVorivariationmax 0.15
+
+#define Pbadtunn 0.15
+
 class Node;
 
 class Exploration
 {
 private:
-    //vec<vec<float>> difference; //Pi,dH,dC,dAlpha,dBeta;
-    //float Pnode;
 
-    //float K;
-    Node explorationnodes[10];
+    Node explorationnodes[100];
 
 public:
     Exploration();
     void explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles);
+    int lost(Node *nodos, int Numnodos, int actualnode);
     void sensoreadings(int nodenumber, Node *nodos);
     float nodecomparison(int realnode, int mapnode, Node *nodos);
 };
