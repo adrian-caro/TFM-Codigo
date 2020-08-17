@@ -5,15 +5,11 @@ OOI::OOI()
 {
 
 }
-void OOI::setname(std::string n)
+void OOI::setID(int n)
 {
-    name=n;
+    ID=n;
 }
 
-void OOI::setshape(std::string n)
-{
-    shape=n;
-}
 
 void OOI::setposition_longit(float n)
 {
@@ -27,9 +23,13 @@ void OOI::setposition_deg(float n)
 
 void OOI::printOOI() //prints node info
 {
-    std::cout << "OOI:" << name << "\t";
-    std::cout << "\tShape:" << shape;
+    std::cout << "OOI: " << ID << "\t";
     std::cout << "\tPosition_long:" << position_longit;
     std::cout << "\tPosition_deg:" << position_deg;
     std::cout << std::endl;
+}
+
+int OOI::getID()
+{
+    return ID;
 }

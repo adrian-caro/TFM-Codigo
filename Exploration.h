@@ -8,7 +8,7 @@
 #define PHorivariationmax 0.15
 #define PVorivariationmax 0.15
 
-#define Pbadtunn 0.15
+#define Pbadtunn 0.2
 
 class Node;
 

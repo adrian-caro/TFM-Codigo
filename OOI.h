@@ -7,16 +7,15 @@ class OOI
 private:
     float position_longit;
     float position_deg;
-    std::string shape;
-    std::string name;
+    int ID;
 
 public:
     OOI();
-    void setname(std::string n);
-    void setshape(std::string n);
+    void setID(int n);
     void setposition_longit(float n);
     void setposition_deg(float n);
     void printOOI();
+    int getID();
 };
 
 #endif // OOI_H

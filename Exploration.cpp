@@ -299,10 +299,56 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
         //-------------------- Node arrival ----------------------------------------------------------------------
         pastnode=actualnode;
         actualnode=realnextnode;
-        std::cout << "Node " << actualnode << " arrived. " << std::endl;
 
-        //The robot get the readings of the new just arrived node (realnextnode)
-        sensoreadings(actualnode,nodos); //clona el nodo con variaciones de lectura
+
+        if (actualnode==99)
+        {
+           std::cout << "The robot arrived to an unknown node. " << std::endl;
+           std::cout << "No further exploration will be performed this way." << std::endl;
+           std::cout << "Going back to the previous node." << std::endl;
+
+           //Tunnel print
+           int a=actualnode;
+           int b=pastnode;
+           vector<int> temp;
+
+           for(int j=0;j<numtuneles;j++)
+           {
+               temp=tuneles[j].getendings();
+
+
+               if(temp.at(0)==a && temp.at(1)==b)
+               {
+
+                   std::cout << std::endl;
+                   tuneles[j].printtunnel();
+                   std::cout << std::endl;
+
+               }
+
+
+               if(temp.at(0)==b && temp.at(1)==a)
+               {
+                   std::cout << std::endl;
+                   tuneles[j].reverseprinttunnel();
+                   std::cout << std::endl;
+
+               }
+
+           }
+
+
+           std::cout << "Previous node (" << pastnode << ") reached correctly."<< std::endl;
+           actualnode=pastnode;
+           expectednextnode=actualnode;
+           solutionpathindex--;
+        }
+        else {
+            std::cout << "Node " << actualnode << " arrived. " << std::endl;
+            //The robot get the readings of the new just arrived node (realnextnode)
+            sensoreadings(actualnode,nodos); //clona el nodo con variaciones de lectura
+        }
+
 
         //-------------------- Node check -------------------------------------------------------------------------
 
