@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Tunnel.h"
+#include "OOI.h"
 using namespace std;
 
 class OOI;
@@ -21,6 +22,7 @@ private:
     float width;
     int numberofexits;
     vector<int> nodosconectados;
+    vector<int> coordinates;
     vector<vector<float>> ExitProp;
 
 public:
@@ -38,12 +40,16 @@ public:
     void setwidth(float n);
     void setexitprop(int connectednode, float hei, float wid, float Hori, float Vori);
     void addnodoconectado(int n);
+    void setcoordinates(int x, int y, int z);
+    vector<int> getcoordinates();
 
     string gettype();
     int getnumberofexits();
     int getnodenumber();
     float getexitprop(int salida, int prop);
     //OOI* getOOI();
+    int getnumberofOOI();
+    int getOOI_ID(int n);
 
 
 };

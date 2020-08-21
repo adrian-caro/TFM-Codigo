@@ -3,6 +3,9 @@
 
 OOI::OOI()
 {
+    position_longit=0;
+    position_deg=0;
+    ID=0;
 
 }
 void OOI::setID(int n)

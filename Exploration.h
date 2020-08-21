@@ -2,13 +2,16 @@
 #define EXPLORATION_H
 #include "Node.h"
 #include "Tunnel.h"
+#include "Graph.h"
 
-#define Pheightvariationmax 0.15
-#define Pwidthvariationmax 0.15
-#define PHorivariationmax 0.15
-#define PVorivariationmax 0.15
+#define Pheightvariationmax 0.1
+#define Pwidthvariationmax 0.1
+#define PHorivariationmax 0.1
+#define PVorivariationmax 0.1
 
 #define Pbadtunn 0.2
+
+#define OOIdetectionRatio 0.9
 
 class Node;
 
@@ -20,7 +23,7 @@ private:
 
 public:
     Exploration();
-    void explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles);
+    void explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles,vector<Pair> OOIlist);
     int lost(Node *nodos, int Numnodos, int actualnode);
     void sensoreadings(int nodenumber, Node *nodos);
     float nodecomparison(int realnode, int mapnode, Node *nodos);

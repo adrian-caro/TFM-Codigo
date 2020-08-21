@@ -109,3 +109,26 @@ string Node::gettype()
 {
     return type;
 }
+
+void Node::setcoordinates(int x, int y, int z)
+{
+    coordinates.push_back(x);
+    coordinates.push_back(y);
+    coordinates.push_back(z);
+}
+
+vector<int> Node::getcoordinates()
+{
+
+    return coordinates;
+}
+
+int Node::getnumberofOOI()
+{
+    return OOIs.size();
+}
+
+int Node::getOOI_ID(int n)
+{
+    return OOIs[n]->getID();
+}

@@ -130,12 +130,12 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
 }
 
-void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunnel *tuneles,int numtuneles)
+void Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles, vector<Pair> OOIlist)
 {
 
-
+    float uncertainty=1,pastuncertainty;
     //it is assumed that the the robot is in the first node of the solution path firstly.
-    int first=-1;
+    int first=-1,checkOOInode;
     //
     int solutionpathindex=0; //indicates the actual solution node where the robot is facing
     int actualnode, pastnode=solutionpath[0];
@@ -146,12 +146,20 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
     std::cout << "Initial node: " << actualnode << std::endl;
     int expectednextnode=solutionpath[1];//There are real and expected nodes due to tunnel mistakes
     int realnextnode=solutionpath[1];
-    int chosenexit=0;
+    int chosenexit=0,OOIcomparison;
     float penalization;
-    float pnodevariation;
+    float pnodevariation,OOIdetectionR;
+
     int error=0;
     sensoreadings(actualnode,nodos);
 
+
+
+    random_device rd;
+    mt19937 mt(rd());
+
+    uniform_real_distribution<double> dist(0.0, explorationnodes[actualnode].getnumberofexits()-1);
+    uniform_real_distribution<double> OOIdetection(0,1);
 
     //float Pbadtunn=0.15; //probability of choosing a bad tunnel
 
@@ -238,10 +246,7 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
                 while (num==chosenexit)
                 {
 
-                    random_device rd;
-                    mt19937 mt(rd());
 
-                    uniform_real_distribution<double> dist(0.0, explorationnodes[actualnode].getnumberofexits()-1);
                     temp = dist(mt);
                     num=round(temp);
 
@@ -356,6 +361,8 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
         pnodevariation=nodecomparison(actualnode,expectednextnode,nodos); //ofrece una estimacion de la similitud entre nodos (0-1)
         penalization=0;
         std::cout << "Node check: P = " << pnodevariation << std::endl;
+
+
         //The number of real exits are compared with the expected number of exits
         if (explorationnodes[actualnode].getnumberofexits()!=nodos[expectednextnode].getnumberofexits()) //Compara el numero de salidas del nodo actual y el nodo esperado
         {
@@ -393,6 +400,72 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
             }
         }
         pnodevariation=pnodevariation-penalization;
+        pastuncertainty=uncertainty;
+
+        if (pnodevariation<0)
+        {
+            pnodevariation=0;
+        }
+
+
+
+        if (pnodevariation>0.9)
+        {
+            uncertainty=uncertainty+0.2;
+            if (uncertainty>1)
+            {
+                uncertainty=1;
+            }
+        }
+        else if (pnodevariation<0.2)
+        {
+            //Bad node known, do not change uncertainty
+        }
+        else
+        {
+            uncertainty=uncertainty*pnodevariation;
+        }
+
+
+        if (nodos[actualnode].getnumberofOOI()!=0)
+        {
+            OOIdetectionR = OOIdetection(mt);
+            if (OOIdetectionR<OOIdetectionRatio)
+            {
+                //OOI detected
+                OOIcomparison=nodos[actualnode].getOOI_ID(0);
+                for (int j=0;j<OOIlist.size()-1;j++)
+                {
+                    if (OOIlist.at(j).first==OOIcomparison)
+                    {
+                        std::cout << "OOI ID_" << OOIcomparison << " identifyed." << std::endl;
+                        std::cout << "Checking OOI with the database."<<std::endl;
+                        checkOOInode=nodos[OOIlist.at(j).second].getnodenumber(); //Node where the robot is.
+
+                        if (actualnode!=checkOOInode)
+                        {
+                            std::cout << "Expected position wrong. OOI confirmed the real position. "<<std::endl;
+                            std::cout << "Actual node: "<< checkOOInode <<std::endl;
+                            actualnode=checkOOInode;
+                            pastnode=checkOOInode;
+                            pnodevariation=1;
+                            uncertainty=1;
+
+                        }
+                        else
+                        {
+                            std::cout << "Position confirmed by the OOI."<<std::endl;
+                            uncertainty=1;
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+        std::cout << "Position uncertainty = " << uncertainty << std::endl;
+
 
         //Results of node comparison
         if (pnodevariation>0.6)
@@ -433,7 +506,11 @@ void Exploration::explorationalgorithm(Node *nodos,vector<int> solutionpath,Tunn
 
                         std::cout << "Mistaken tunnel choosed confirmed by map simmilarities."<< std::endl;
                         std::cout << "Trying to return to the previous node ."<< std::endl;
-
+                        uncertainty=pastuncertainty+0.2;
+                        if (uncertainty>1)
+                        {
+                            uncertainty=1;
+                        }
                         std::cout << "Choosing the correct tunnel."<< std::endl;
                         //PRINT HERE TUNNEL CHANGE
                         std::cout << "Going back to the previous node."<< std::endl;
