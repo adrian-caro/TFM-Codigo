@@ -1,19 +1,30 @@
 #include "Dijkstra.h"
 using namespace std;
 
-Dijkstra::Dijkstra(int sta, int goa,vector<vector<Pair>> n)
+Dijkstra::Dijkstra()
 {
+
+
+}
+
+vector<int> Dijkstra::algorithm(int sta, int goa,vector<vector<Pair>> n)
+{
+
     std::cout << "------Path search required------" << std::endl;
     std::cout << std::endl;
     nodestart=sta;
     nodegoal=goa;
+    nodelist.clear();
+    open.clear();
+    closed.clear();
+
+
     nodelist=n;
     std::cout << "Finding path from node " << sta << " to node " << goa << "."<< std::endl;
 
-}
 
-vector<int> Dijkstra::algorithm()
-{
+
+
     int solucionado=0; //just a flag for finishing
     int primermuerto=0;
 

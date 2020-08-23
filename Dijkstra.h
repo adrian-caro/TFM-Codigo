@@ -14,8 +14,8 @@ private:
     std::vector<vector<int>> open;
     std::vector<vector<int>> closed;
 public:
-    Dijkstra(int sta, int goa,vector<vector<Pair>> n);
-    vector<int> algorithm();
+    Dijkstra();
+    vector<int> algorithm(int sta, int goa,vector<vector<Pair>> n);
 };
 
 #endif // DIJKSTRA_H

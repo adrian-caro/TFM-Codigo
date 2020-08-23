@@ -53,11 +53,13 @@ using namespace std;
 
 int main()
 {
-    int inputmode;
+    char inputmode;
 
-    cout << "Elija el modo de grafo: " << std::endl;
-    cout << "1. Creacion desde archivo .txt." << std::endl;
-    cout << "2. Grafo aleatorio." << std::endl;
+    cout << "Choose a graph input mode: " << std::endl;
+    cout << "1. Load graph from file (.txt)." << std::endl;
+    cout << "2. Random graph." << std::endl;
+    cout << "--------------------" << std::endl;
+    cout << "Mode:";
 
     vector<Pair> OOIlist;
     int OOI_ID=0;
@@ -65,28 +67,31 @@ int main()
 
     do{
         std::cin >> inputmode;
+
         switch(inputmode)
         {
-        case 1:
-            inputmode=1;
+        case '1':
+
             break;
-        case 2:
-            inputmode=2;
+        case '2':
+
             break;
-        default: std::cout<<"Invalid choice" << std::endl;
-            inputmode=0;
+        default:
+            std::cout<<"Invalid choice" << std::endl;
 
         }
-    }while(inputmode!=1 && inputmode!=2);
+    }while(inputmode!='1' &&  inputmode!='2');
 
 
 
-    if (inputmode==2)
+    if (inputmode=='2')
     {
+        cout<< std::endl;
+        std::cout<<"Generating a random graph" << std::endl;
         //Grafo grafito;
         int Numnodos;
-
-        cout << "Introduce el numero de nodos: ";
+        int explorationactualnode;
+        cout << "Introduce the number of nodes of the desired graph: ";
         cin >> Numnodos;
         Node nodos[Numnodos+1];
         string name="N",result;
@@ -321,17 +326,11 @@ int main()
             {
             case 'Y':
                 search=1;
-                std::cout << "Set start node:" << std::endl;
-                std::cin >> startnode;
-                std::cout << "Set goal node:" << std::endl;
-                std::cin >> goalnode;
+
                 break;
             case 'y':
                 search=1;
-                std::cout << "Set start node:" << std::endl;
-                std::cin >> startnode;
-                std::cout << "Set goal node:" << std::endl;
-                std::cin >> goalnode;
+
                 break;
             case 'N':   search=0;
                 break;
@@ -346,10 +345,55 @@ int main()
         vector<int> solutionpath;
         if (search==1)
         {
+            int searchmode;
+            std::cout << "Select start mode." << std::endl;
+            std::cout << "1. Lost start mode" << std::endl;
+            std::cout << "2. Known start node" << std::endl;
+            cout << "--------------------" << std::endl;
+            cout << "Mode:";
+
+            int lostnode;
+
+
+
+            char answer;
+            do{
+                std::cin>>answer;
+                switch(answer)
+                {
+                case '1':
+                    searchmode=1;
+                    std::cout << "Set start lost node:" << std::endl;
+                    std::cin >> lostnode;
+                    std::cout << "Set goal node:" << std::endl;
+                    std::cin >> goalnode;
+                    break;
+                case '2':
+                    searchmode=2;
+                    std::cout << "Set start node:" << std::endl;
+                    std::cin >> startnode;
+                    std::cout << "Set goal node:" << std::endl;
+                    std::cin >> goalnode;
+
+                default: std::cout<<"Invalid choice" << std::endl;
+                    break;
+                }
+            }while(answer!='1' && answer!='2');
+
+
+            Exploration exploration1;
+
+            if (searchmode==1)
+            {
+                startnode=exploration1.lost(nodos,Numnodos,lostnode);
+            }
+
+
+
             //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
 
-            Dijkstra search(startnode,goalnode,grafo.getlista());
-            solutionpath=search.algorithm();
+            Dijkstra search;
+            solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
             int a,b;
 
                 std::cout << std::endl;
@@ -394,24 +438,39 @@ int main()
 
             }
 
-                //ADD REVERSE PRINT TUNNEL SECTION
+
+            std::cout << std::endl;\
+
+
+            explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist);
+
+            while (explorationactualnode!=solutionpath[solutionpath.size()-1])
+            {
+                solutionpath.clear();
+                startnode=explorationactualnode;
+                solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+
+
+                explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist);
+            }
+
+
+
 
         }
 
 
-        std::cout << std::endl;\
-        Exploration exploration1;
-
-        exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist);
 
 
-        int asd=exploration1.lost(nodos,Numnodos,5);
+
+
+
     }
-    else if (inputmode==1)
+    else if (inputmode=='1')
     {
 
 
-        //---------------
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -592,8 +651,8 @@ int main()
         {
             //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
 
-            Dijkstra search(startnode,goalnode,grafo.getlista());
-            solutionpath=search.algorithm();
+            Dijkstra search;
+            solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
             int a,b;
 
                 std::cout << std::endl;

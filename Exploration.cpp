@@ -130,7 +130,7 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
 }
 
-void Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles, vector<Pair> OOIlist)
+int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles, vector<Pair> OOIlist)
 {
 
     float uncertainty=1,pastuncertainty;
@@ -442,14 +442,16 @@ void Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tu
                         std::cout << "Checking OOI with the database."<<std::endl;
                         checkOOInode=nodos[OOIlist.at(j).second].getnodenumber(); //Node where the robot is.
 
-                        if (actualnode!=checkOOInode)
+                        if (expectednextnode!=checkOOInode)
                         {
                             std::cout << "Expected position wrong. OOI confirmed the real position. "<<std::endl;
                             std::cout << "Actual node: "<< checkOOInode <<std::endl;
+
                             actualnode=checkOOInode;
                             pastnode=checkOOInode;
                             pnodevariation=1;
                             uncertainty=1;
+                            return actualnode;
 
                         }
                         else
@@ -480,6 +482,7 @@ void Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tu
                 std::cout << "***** End node reached correctly *****" << std::endl;
                 std::cout << "Ending program... " << std::endl;
                 std::cout << std::endl;
+                return actualnode;
                 break;
             }
 
@@ -505,6 +508,7 @@ void Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tu
                         std::cout << "Checking the map for detecting tunnel mistakes."<< std::endl;
 
                         std::cout << "Mistaken tunnel choosed confirmed by map simmilarities."<< std::endl;
+                        return actualnode;
                         std::cout << "Trying to return to the previous node ."<< std::endl;
                         uncertainty=pastuncertainty+0.2;
                         if (uncertainty>1)
