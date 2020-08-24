@@ -14,11 +14,13 @@
 #include <math.h>
 using namespace std;
 
-#define MinHeight 30
-#define MaxHeight 300
 
-#define Minwidth 40
-#define Maxwidth 300
+//Distances in meters (m).
+#define MinHeight 0.5
+#define MaxHeight 2
+
+#define Minwidth 0.5
+#define Maxwidth 3
 
 #define MinHorizontalOrientation 0
 #define MaxHorizontalOrientation 360
@@ -32,20 +34,21 @@ using namespace std;
 #define Mintunnelsegments 1
 #define Maxtunnelsegments 4
 
-#define Minsegmentlength 100
-#define Maxsegmentlength 500
+#define Minsegmentlength 1
+#define Maxsegmentlength 8
 
-#define Minsegmentwidth 100
-#define Maxsegmentwidth 400
+#define Minsegmentwidth 0.5
+#define Maxsegmentwidth 1.5
 
-#define Minsegmentheight 0
-#define Maxsegmentheight 400
+#define Minsegmentheight 0.5
+#define Maxsegmentheight 1.5
 
+//Slope in %
 #define Minsegmentlope 0
 #define Maxsegmentlope 15
 
-#define RandomlocationdistX 20000 //Distance between nodes
-#define RandomlocationdistY 20000\
+#define RandomlocationdistX 10 //Distance between nodes
+#define RandomlocationdistY 10\
 
 #define OOIgenerationRatio 0.4 //If the random number is lower than OOIgenerationRatio, then a OOI is generated
 
@@ -102,10 +105,13 @@ int main()
         OOI OOIs[Numnodos];
         Tunnel tuneles[Numnodos*4];
         vector<Segment> segments(Numnodos*5);
-        uniform_real_distribution<double> randomx(0, RandomlocationdistX);
+        uniform_real_distribution<double> randomx(-RandomlocationdistX, RandomlocationdistX);
         uniform_real_distribution<double> randomy(-RandomlocationdistY, RandomlocationdistY);
         float x,y,z,OOIratio;
+        vector<int> previousnodeposition;
+
         uniform_real_distribution<double> OOIgeneration(0,1);
+
         for (int i=0;i<Numnodos;i++)
         {
             result = name + std::to_string(i);
@@ -127,9 +133,20 @@ int main()
 
             nodos[i].settype(result);
             nodos[i].setnodenumber(i);
-            x= randomx(mt);
-            y= randomy(mt);
-            z= 0;
+            if (i==0)
+            {
+                x= randomx(mt);
+                y= randomy(mt);
+                z= 0;
+            }
+            else
+            {
+                previousnodeposition=nodos[i-1].getcoordinates();
+                x= randomx(mt)+previousnodeposition.at(0);
+                y= randomy(mt)+previousnodeposition.at(1);
+                z= 0;
+            }
+
             nodos[i].setcoordinates(x,y,z);
         }
         float var7,var3,var4,var5,var6;
@@ -161,7 +178,7 @@ int main()
         int numberofexits;
         float tempor;
         int connectingnode,tempnumexits;
-        uniform_real_distribution<double> dist(0, Numnodos-1);
+        uniform_real_distribution<double> dist(-5, 5);
         uniform_real_distribution<double> tunnn(MinNumberoftunnels, MaxNumberoftunnels);
         uniform_real_distribution<double> tunnseg(Mintunnelsegments, Maxtunnelsegments);
 
@@ -189,7 +206,7 @@ int main()
 
 
 
-        //creates as many segments as the tunnel has
+        //creates as many segments as the tunnel has=
         for (int j=0;j<nuseg;j++)
         {
 
@@ -227,12 +244,12 @@ int main()
 
 
                 tempor = dist(mt);
-                connectingnode=round(tempor);
+                connectingnode=round(tempor)+j;
 
-                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels || connectingnode==j || connectingnode==0)
+                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1)
                 {
                     tempor = dist(mt);
-                    connectingnode=round(tempor);
+                    connectingnode=round(tempor)+j;
                 }
                 //connected node
                 var7 = connectingnode;
