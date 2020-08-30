@@ -130,3 +130,13 @@ vector<Segment*> Tunnel::getsegments()
 {
     return segments;
 }
+
+int Tunnel::getnumberofOOI()
+{
+    return OOIs.size();
+}
+
+int Tunnel::getOOI_ID(int n)
+{
+    return OOIs[n]->getID();
+}

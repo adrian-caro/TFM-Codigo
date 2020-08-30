@@ -32,6 +32,8 @@ public:
     void addsegment(Segment *seg);
     vector<Segment*> getsegments();
     void addOOI(OOI *ooi);
+    int getnumberofOOI();
+    int getOOI_ID(int n);
 
 };
 

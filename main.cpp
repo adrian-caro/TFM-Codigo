@@ -50,10 +50,10 @@ using namespace std;
 #define RandomlocationdistX 10 //Distance between nodes
 #define RandomlocationdistY 10\
 
-#define OOIgenerationRatio 0.4 //If the random number is lower than OOIgenerationRatio, then a OOI is generated
+#define OOIgenerationRatio 0.3 //If the random number is lower than OOIgenerationRatio, then a OOI is generated
 
 #define OOIdetectionRatio 0.9
-
+#define unknownodeRatio 0.1
 int main()
 {
     char inputmode;
@@ -66,6 +66,7 @@ int main()
 
     vector<Pair> OOIlist;
     int OOI_ID=0;
+    float unknownodeR;
 
 
     do{
@@ -129,10 +130,22 @@ int main()
                 OOI_ID++;
             }
 
+            unknownodeR=OOIgeneration(mt);
 
+            if (unknownodeR<=unknownodeRatio)
+            {
+                //Create unknown node
+                nodos[i].settype(result);
+                nodos[i].setnodenumber(9999);
+                std::cout << "Nodo caca -" << i << std::endl;
 
-            nodos[i].settype(result);
-            nodos[i].setnodenumber(i);
+            }
+            else
+            {
+                nodos[i].settype(result);
+                nodos[i].setnodenumber(i);
+            }
+
             if (i==0)
             {
                 x= randomx(mt);
@@ -235,9 +248,13 @@ int main()
         {
             tempor = tunnn(mt);
             //numberofexits=round(tempor);
-            numberofexits=2;
+            numberofexits=3;
             segmentnumber=0;
 
+            if (nodos[j].getnodenumber()==9999)
+            {
+                numberofexits=1;
+            }
 
             for (int i=nodos[j].getnumberofexits();i<numberofexits;i++)
             {
@@ -246,7 +263,7 @@ int main()
                 tempor = dist(mt);
                 connectingnode=round(tempor)+j;
 
-                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1)
+                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels ||nodos[connectingnode].getnodenumber()==9999 || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1)
                 {
                     tempor = dist(mt);
                     connectingnode=round(tempor)+j;

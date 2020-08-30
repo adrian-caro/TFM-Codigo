@@ -267,6 +267,8 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         int a=actualnode;
         int b=realnextnode;
         vector<int> temp;
+        int expectedtunnelOOI,realtunnelOOI;
+
 
         for(int j=0;j<numtuneles;j++)
         {
@@ -283,6 +285,8 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
                 //                {
                 //                    segmentpath.push_back(segmentemp.at(i));
                 //                }
+                realtunnelOOI=j;
+
             }
 
 
@@ -296,9 +300,106 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
                 //                {
                 //                    segmentpath.push_back(segmentemp.at(i));
                 //                }
+
+                realtunnelOOI=j;
             }
 
         }
+
+
+        //OOI check
+
+
+        a=actualnode;
+        b=expectednextnode;
+
+
+        for(int j=0;j<numtuneles;j++)
+        {
+            temp=tuneles[j].getendings();
+
+
+            if(temp.at(0)==a && temp.at(1)==b)
+            {
+
+                expectedtunnelOOI=j;
+
+            }
+
+
+            if(temp.at(0)==b && temp.at(1)==a)
+            {
+
+                expectedtunnelOOI=j;
+            }
+
+        }
+
+        int checkOOItunnel,tunnelconfirmed;
+
+        tunnelconfirmed=0;
+        if (tuneles[realtunnelOOI].getnumberofOOI()!=0)
+        {
+            OOIdetectionR = OOIdetection(mt);
+            if (OOIdetectionR<OOIdetectionRatio)
+            {
+                //OOI detected
+                OOIcomparison=tuneles[realtunnelOOI].getOOI_ID(0);
+                for (int j=0;j<OOIlist.size()-1;j++)
+                {
+                    if (OOIlist.at(j).first==OOIcomparison)
+                    {
+                        std::cout << "OOI ID_" << OOIcomparison << " identifyed." << std::endl;
+                        std::cout << "Checking OOI with the database."<<std::endl;
+                        checkOOItunnel=OOIlist.at(j).second; //tunnel where the robot is.
+
+                        if (expectedtunnelOOI!=checkOOItunnel)
+                        {
+                            std::cout << "Expected tunnel position wrong. OOI confirmed the real position. "<<std::endl;
+
+                            uncertainty=1;
+                            return realnextnode;
+
+                        }
+                        else
+                        {
+                            std::cout << "Position in tunnel confirmed by the OOI."<<std::endl;
+                            uncertainty=1;
+                            std::cout << "Position uncertainty = " << uncertainty << std::endl;
+                            tunnelconfirmed=1;
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //-------------------- Node arrival ----------------------------------------------------------------------
@@ -306,7 +407,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         actualnode=realnextnode;
 
 
-        if (actualnode==99)
+        if (actualnode==9999)
         {
            std::cout << "The robot arrived to an unknown node. " << std::endl;
            std::cout << "No further exploration will be performed this way." << std::endl;
@@ -426,6 +527,12 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
             uncertainty=uncertainty*pnodevariation;
         }
 
+
+        if (tunnelconfirmed==1)
+        {
+            uncertainty=1;
+            tunnelconfirmed=0;
+        }
 
         if (nodos[actualnode].getnumberofOOI()!=0)
         {

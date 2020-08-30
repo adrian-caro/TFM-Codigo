@@ -7,7 +7,7 @@ Main 1 4
     0 33 44 63 66
     5 55 66 56 66
     2 77 88 24 62
-    99 22 33 46 75
+    9999 22 33 46 75
 
 N2 2 2
     1 34 55 63 52.6
@@ -20,7 +20,7 @@ N3 3 3
 
 N4 4 2
     3 33 55 23 65.5
-    99 33 56 123 85
+    9999 33 56 123 85
 
 N5 5 3
     1 77 88 56.3 73.6
@@ -29,7 +29,7 @@ N5 5 3
 
 N6 6 2
     5 44 55 56.3 22
-    99 33 77 56 76
+    9999 33 77 56 76
 
 NoMoreNodesFLAG 0 0
 //Tunnel startnode finalnode numberofsegments //EachSegmentlenght width height slope
