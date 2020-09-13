@@ -16,11 +16,21 @@ using namespace std;
 
 
 //Distances in meters (m).
+
+#define MinNodeHeight 1.5
+#define MaxNodeHeight 4
+
+#define MinNodewidth 1.5
+#define MaxNodewidth 3
+
+#define MinNodedepth 1
+#define MaxNodedepth 4
+
 #define MinHeight 0.5
-#define MaxHeight 2
+#define MaxHeight 1.5
 
 #define Minwidth 0.5
-#define Maxwidth 3
+#define Maxwidth 1.5
 
 #define MinHorizontalOrientation 0
 #define MaxHorizontalOrientation 360
@@ -99,7 +109,7 @@ int main()
         cin >> Numnodos;
         Node nodos[Numnodos+1];
         string name="N",result;
-        std::cout << "------Nodes input------" << std::endl;
+
         random_device rd;
         mt19937 mt(rd());
 
@@ -108,8 +118,12 @@ int main()
         vector<Segment> segments(Numnodos*5);
         uniform_real_distribution<double> randomx(-RandomlocationdistX, RandomlocationdistX);
         uniform_real_distribution<double> randomy(-RandomlocationdistY, RandomlocationdistY);
+
+        uniform_real_distribution<double> nodeh(MinNodeHeight, MaxNodeHeight);
+        uniform_real_distribution<double> nodew(MinNodewidth, MaxNodewidth);
+        uniform_real_distribution<double> noded(MinNodedepth, MaxNodedepth);
         float x,y,z,OOIratio;
-        vector<int> previousnodeposition;
+        vector<float> previousnodeposition;
 
         uniform_real_distribution<double> OOIgeneration(0,1);
 
@@ -137,7 +151,6 @@ int main()
                 //Create unknown node
                 nodos[i].settype(result);
                 nodos[i].setnodenumber(9999);
-                std::cout << "Nodo caca -" << i << std::endl;
 
             }
             else
@@ -161,11 +174,14 @@ int main()
             }
 
             nodos[i].setcoordinates(x,y,z);
+            nodos[i].setheight(nodeh(mt));
+            nodos[i].setwidth(nodew(mt));
+            nodos[i].setdepth(noded(mt));
         }
         float var7,var3,var4,var5,var6;
 
         //Node 0 Entrance
-        vector<int> coordi;
+        vector<float> coordi;
         coordi=nodos[4].getcoordinates();
 
 
@@ -188,6 +204,9 @@ int main()
         nodos[0].setnumberofexits(1);
         nodos[1].setexitprop(0,var3,var4,var5,var6);
         nodos[1].setnumberofexits(1);
+
+
+
         int numberofexits;
         float tempor;
         int connectingnode,tempnumexits;
@@ -232,7 +251,7 @@ int main()
         }
 
         longitud=tuneles[numberoftunnels].getlength();
-        tuneles[numberoftunnels].printtunnel();
+        //tuneles[numberoftunnels].printtunnel();
 
         //creates links in the node adjacency list
         enlaces.push_back({0,1,longitud});
@@ -250,6 +269,7 @@ int main()
             //numberofexits=round(tempor);
             numberofexits=3;
             segmentnumber=0;
+            int repetido=0;
 
             if (nodos[j].getnodenumber()==9999)
             {
@@ -259,14 +279,39 @@ int main()
             for (int i=nodos[j].getnumberofexits();i<numberofexits;i++)
             {
 
-
+                repetido=0;
                 tempor = dist(mt);
                 connectingnode=round(tempor)+j;
 
-                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels ||nodos[connectingnode].getnodenumber()==9999 || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1)
+                for (int k=0; k<enlaces.size();k++)
                 {
+                    if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
+                    {
+                        repetido=1;
+                    }
+                    if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
+                    {
+                        repetido=1;
+                    }
+                }
+
+                while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels ||nodos[connectingnode].getnodenumber()==9999 || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1 || repetido==1)
+                {
+                    repetido=0;
                     tempor = dist(mt);
                     connectingnode=round(tempor)+j;
+
+                    for (int k=0; k<enlaces.size();k++)
+                    {
+                        if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
+                        {
+                            repetido=1;
+                        }
+                        if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
+                        {
+                            repetido=1;
+                        }
+                    }
                 }
                 //connected node
                 var7 = connectingnode;
@@ -323,7 +368,7 @@ int main()
                 }
 
                 longitud=tuneles[numberoftunnels].getlength();
-                tuneles[numberoftunnels].printtunnel();
+
 
                 //creates links in the node adjacency list
                 enlaces.push_back({j,connectingnode,longitud});
@@ -333,6 +378,24 @@ int main()
                 segmentnumber++;
             }
 
+
+        }
+        std::cout  << std::endl;
+        std::cout << "------Nodes input------" << std::endl;
+        std::cout  << std::endl;
+        for (int i=0; i<Numnodos;i++)
+        {
+            nodos[i].printnode();
+        }
+
+        std::cout  << std::endl;
+        std::cout << "------Tunnels input------" << std::endl;
+        std::cout  << std::endl;
+
+
+        for (int i=0; i<numberoftunnels;i++)
+        {
+            tuneles[i].printtunnel();
         }
 
         std::cout << std::endl;
@@ -537,10 +600,17 @@ int main()
         inputdata >> junkheader1;
         inputdata >> junkheader1;
         inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
+        inputdata >> junkheader1;
 
         string name;
         int var1,var2, var7;
-        float var3, var5, var6, var4;
+        float var3, var5, var6, var4,x,y,z;
 
         std::cout << "------Nodes input------" << std::endl;
         std::cout << std::endl;
@@ -549,7 +619,7 @@ int main()
         Node nodos[100];
         int i=0, Numnodos; // N=Number of nodes in the graph
 
-        while (inputdata >> name >> var1 >> var2)
+        while (inputdata >> name >> var1 >> var2 >> var3 >> var4 >> var5 >> x >> y >> z)
         {
             //Check for the end of node definition
             if (name=="NoMoreNodesFLAG")
@@ -561,6 +631,11 @@ int main()
             nodos[i].settype(name);
             nodos[i].setnodenumber(var1);
             nodos[i].setnumberofexits(var2);
+            nodos[i].setheight(var3);
+            nodos[i].setwidth(var4);
+            nodos[i].setdepth(var5);
+            nodos[i].setcoordinates(x,y,z);
+
 
             for (int j=0;j<var2;j++)
             {

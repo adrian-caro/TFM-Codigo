@@ -38,19 +38,28 @@ void Node::addtunnel()
 
 void Node::printnode() //prints node info
 {
+
     std::cout << "Node:" << nodenumber << "\t" << " Name:" << type;
     std::cout << "\t" <<  "Number of exits:" << numberofexits << std::endl;
+
+    std::cout << "Height:" << height << "\t" << " width:" << width;
+    std::cout << "\t" <<  "Depth:" << depth << std::endl;
+    std::cout << "Coordinates [x,y,z]: [" << coordinates.at(0) << "," << coordinates.at(1);
+    std::cout  <<  "," << coordinates.at(2) <<"]" << std::endl;
     std::cout << std::endl;
+
+
+
 
     for (int i=0;i<numberofexits;i++)
     {
 
-        std::cout << "\t\t-Node Exit " << (i+1) << "\t";
-        std::cout << "Height:" << ExitProp[i].at(0) << "\t";
-        std::cout << "Width:" << ExitProp[i].at(1) << "\t";
-        std::cout << "Hor. orientation:" << ExitProp[i].at(2) << "\t";
-        std::cout << "Ver. orientation:" << ExitProp[i].at(3)<< std::endl;
-
+        std::cout << "\t \t Exit to node " << ExitProp[i].at(0)<<std::endl;
+        std::cout << "\t \t Height:" << ExitProp[i].at(1) << "\t";
+        std::cout << "Width:" << ExitProp[i].at(2) << "\t";
+        std::cout << "H. ori." << ExitProp[i].at(3) << "\t";
+        std::cout << "V. ori.:" << ExitProp[i].at(4)<< std::endl;
+        std::cout << std::endl;
 
     }std::cout << std::endl;
 }
@@ -110,14 +119,14 @@ string Node::gettype()
     return type;
 }
 
-void Node::setcoordinates(int x, int y, int z)
+void Node::setcoordinates(float x, float y, float z)
 {
     coordinates.push_back(x);
     coordinates.push_back(y);
     coordinates.push_back(z);
 }
 
-vector<int> Node::getcoordinates()
+vector<float> Node::getcoordinates()
 {
 
     return coordinates;
@@ -131,4 +140,9 @@ int Node::getnumberofOOI()
 int Node::getOOI_ID(int n)
 {
     return OOIs[n]->getID();
+}
+
+void Node::setdepth(float n)
+{
+    depth=n;
 }

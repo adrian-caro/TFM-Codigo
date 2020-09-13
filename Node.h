@@ -20,9 +20,10 @@ private:
     std::vector<OOI*> OOIs;
     float height;
     float width;
+    float depth;
     int numberofexits;
     vector<int> nodosconectados;
-    vector<int> coordinates;
+    vector<float> coordinates;
     vector<vector<float>> ExitProp;
 
 public:
@@ -38,10 +39,11 @@ public:
     void addOOI(OOI *ooi);
     void setheight(float n);
     void setwidth(float n);
+    void setdepth(float n);
     void setexitprop(int connectednode, float hei, float wid, float Hori, float Vori);
     void addnodoconectado(int n);
-    void setcoordinates(int x, int y, int z);
-    vector<int> getcoordinates();
+    void setcoordinates(float x, float y, float z);
+    vector<float> getcoordinates();
 
     string gettype();
     int getnumberofexits();
