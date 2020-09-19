@@ -1,4 +1,4 @@
-prefix=/home/adri/tfmROS/install
+prefix=/home/adri/Datos/Git/TFM-Codigo/tfmROS/install
 
 Name: rviz_visual_tools
 Description: Description of rviz_visual_tools

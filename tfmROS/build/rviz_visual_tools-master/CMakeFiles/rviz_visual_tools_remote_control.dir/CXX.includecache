@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/adri/tfmROS/build/rviz_visual_tools-master/rviz_visual_tools_remote_control_autogen/mocs_compilation.cpp
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/build/rviz_visual_tools-master/rviz_visual_tools_remote_control_autogen/mocs_compilation.cpp
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/remote_control.h
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/remote_control.h
 string
 -
 ros/ros.h
@@ -16,7 +16,7 @@ ros/ros.h
 sensor_msgs/Joy.h
 -
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/src/remote_control.cpp
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/remote_control.cpp
 string
 -
 rviz_visual_tools/remote_control.h

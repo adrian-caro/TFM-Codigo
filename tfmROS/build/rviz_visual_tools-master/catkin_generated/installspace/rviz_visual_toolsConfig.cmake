@@ -67,14 +67,14 @@ set(rviz_visual_tools_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(rviz_visual_tools_SOURCE_PREFIX /home/adri/tfmROS/src/rviz_visual_tools-master)
-  set(rviz_visual_tools_DEVEL_PREFIX /home/adri/tfmROS/devel)
+  set(rviz_visual_tools_SOURCE_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master)
+  set(rviz_visual_tools_DEVEL_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/devel)
   set(rviz_visual_tools_INSTALL_PREFIX "")
   set(rviz_visual_tools_PREFIX ${rviz_visual_tools_DEVEL_PREFIX})
 else()
   set(rviz_visual_tools_SOURCE_PREFIX "")
   set(rviz_visual_tools_DEVEL_PREFIX "")
-  set(rviz_visual_tools_INSTALL_PREFIX /home/adri/tfmROS/install)
+  set(rviz_visual_tools_INSTALL_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/install)
   set(rviz_visual_tools_PREFIX ${rviz_visual_tools_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/adri/tfmROS/install/lib;/home/adri/Desktop/tfmROS/devel/lib;/home/adri/tfmROS/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/adri/Datos/Git/TFM-Codigo/tfmROS/install/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

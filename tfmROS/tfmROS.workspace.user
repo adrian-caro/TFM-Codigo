@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.9.2, 2020-09-19T18:52:17. -->
+<!-- Written by QtCreator 4.9.2, 2020-09-19T23:17:04. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -166,21 +166,21 @@
     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges">
-     <value type="QString">CMAKE_PREFIX_PATH=/home/adri/Desktop/tfmROS/devel:/home/adri/tfmROS/devel:/opt/ros/melodic</value>
-     <value type="QString">LD_LIBRARY_PATH=/home/adri/Desktop/tfmROS/devel/lib:/home/adri/tfmROS/devel/lib:/opt/ros/melodic/lib</value>
+     <value type="QString">CMAKE_PREFIX_PATH=/home/adri/Datos/Git/TFM-Codigo/tfmROS/devel:/opt/ros/melodic</value>
+     <value type="QString">LD_LIBRARY_PATH=/home/adri/Datos/Git/TFM-Codigo/tfmROS/devel/lib:/opt/ros/melodic/lib</value>
      <value type="QString">PATH=/opt/ros/melodic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</value>
-     <value type="QString">PKG_CONFIG_PATH=/home/adri/Desktop/tfmROS/devel/lib/pkgconfig:/home/adri/tfmROS/devel/lib/pkgconfig:/opt/ros/melodic/lib/pkgconfig</value>
-     <value type="QString">PWD=/home/adri/tfmROS</value>
+     <value type="QString">PKG_CONFIG_PATH=/home/adri/Datos/Git/TFM-Codigo/tfmROS/devel/lib/pkgconfig:/opt/ros/melodic/lib/pkgconfig</value>
+     <value type="QString">PWD=/home/adri/Datos/Git/TFM-Codigo/tfmROS</value>
      <value type="QString">PYTHONPATH=/opt/ros/melodic/lib/python2.7/dist-packages</value>
-     <value type="QString">ROSLISP_PACKAGE_DIRECTORIES=/home/adri/Desktop/tfmROS/devel/share/common-lisp:/home/adri/tfmROS/devel/share/common-lisp</value>
+     <value type="QString">ROSLISP_PACKAGE_DIRECTORIES=/home/adri/Datos/Git/TFM-Codigo/tfmROS/devel/share/common-lisp</value>
      <value type="QString">ROS_DISTRO=melodic</value>
      <value type="QString">ROS_ETC_DIR=/opt/ros/melodic/etc/ros</value>
      <value type="QString">ROS_MASTER_URI=http://localhost:11311</value>
-     <value type="QString">ROS_PACKAGE_PATH=/home/adri/tfmROS/src:/home/adri/Desktop/tfmROS/src:/home/adri/tfmROS/src:/home/adri/Desktop/tfmROS/src:/opt/ros/melodic/share</value>
+     <value type="QString">ROS_PACKAGE_PATH=/home/adri/Datos/Git/TFM-Codigo/tfmROS/src:/opt/ros/melodic/share</value>
      <value type="QString">ROS_PYTHON_VERSION=2</value>
      <value type="QString">ROS_ROOT=/opt/ros/melodic/share/ros</value>
      <value type="QString">ROS_VERSION=1</value>
-     <value type="QString">SHLVL=234</value>
+     <value type="QString">SHLVL=309</value>
      <value type="QString">TERM=xterm</value>
      <value type="QString">_=/usr/bin/env</value>
     </valuelist>

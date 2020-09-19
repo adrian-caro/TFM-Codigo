@@ -67,14 +67,14 @@ set(rviz_visual_tools_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(rviz_visual_tools_SOURCE_PREFIX /home/adri/tfmROS/src/rviz_visual_tools-master)
-  set(rviz_visual_tools_DEVEL_PREFIX /home/adri/tfmROS/devel)
+  set(rviz_visual_tools_SOURCE_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master)
+  set(rviz_visual_tools_DEVEL_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/devel)
   set(rviz_visual_tools_INSTALL_PREFIX "")
   set(rviz_visual_tools_PREFIX ${rviz_visual_tools_DEVEL_PREFIX})
 else()
   set(rviz_visual_tools_SOURCE_PREFIX "")
   set(rviz_visual_tools_DEVEL_PREFIX "")
-  set(rviz_visual_tools_INSTALL_PREFIX /home/adri/tfmROS/install)
+  set(rviz_visual_tools_INSTALL_PREFIX /home/adri/Datos/Git/TFM-Codigo/tfmROS/install)
   set(rviz_visual_tools_PREFIX ${rviz_visual_tools_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(rviz_visual_tools_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/adri/tfmROS/src/rviz_visual_tools-master/include;/usr/include/OGRE " STREQUAL " ")
+if(NOT "/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include;/usr/include/OGRE " STREQUAL " ")
   set(rviz_visual_tools_INCLUDE_DIRS "")
-  set(_include_dirs "/home/adri/tfmROS/src/rviz_visual_tools-master/include;/usr/include/OGRE")
+  set(_include_dirs "/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include;/usr/include/OGRE")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "https://github.com/davetcoleman/rviz_visual_tools " STREQUAL " ")
@@ -110,7 +110,7 @@ if(NOT "/home/adri/tfmROS/src/rviz_visual_tools-master/include;/usr/include/OGRE
         message(FATAL_ERROR "Project 'rviz_visual_tools' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'rviz_visual_tools' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/adri/tfmROS/src/rviz_visual_tools-master/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'rviz_visual_tools' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/${idir}'.  ${_report}")
     endif()
     _list_append_unique(rviz_visual_tools_INCLUDE_DIRS ${include})
   endforeach()
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/adri/tfmROS/devel/lib;/home/adri/Desktop/tfmROS/devel/lib;/home/adri/tfmROS/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/adri/Datos/Git/TFM-Codigo/tfmROS/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

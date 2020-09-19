@@ -1,8 +1,0 @@
-prefix=/home/adri/tfmROS/devel
-
-Name: tfmPackage
-Description: Description of tfmPackage
-Version: 0.1.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,2 +1,2 @@
-rviz_visual_tools-master:tfmPackage
--G CodeBlocks - Unix Makefiles -DCMAKE_BUILD_TYPE=Release -DCATKIN_DEVEL_PREFIX=/home/adri/tfmROS/devel -DCMAKE_INSTALL_PREFIX=/home/adri/tfmROS/install
+rviz_visual_tools-master
+-G CodeBlocks - Unix Makefiles -DCMAKE_BUILD_TYPE=Release -DCATKIN_DEVEL_PREFIX=/home/adri/Datos/Git/TFM-Codigo/tfmROS/devel -DCMAKE_INSTALL_PREFIX=/home/adri/Datos/Git/TFM-Codigo/tfmROS/install

@@ -106,7 +106,8 @@ using namespace std;
 #define Maxsegmentlope 15
 
 #define RandomlocationdistX 10 //Distance between nodes
-#define RandomlocationdistY 10\
+#define RandomlocationdistY 10
+#define RandomlocationdistZ 2
 
 #define OOIgenerationRatio 0.3 //If the random number is lower than OOIgenerationRatio, then a OOI is generated
 
@@ -634,7 +635,7 @@ public:
   }
 
   /** \brief Compare every size range */
-  void testSizes(double& x_location)
+  void ploteo(int numnodes,Node *nodos,vector<Enlace> const& enlaces,int numberoftunnels,Tunnel *tuneles)
   {
     ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
 
@@ -701,22 +702,34 @@ public:
     Eigen::Isometry3d poseto = Eigen::Isometry3d::Identity();
     Eigen::Isometry3d posename = Eigen::Isometry3d::Identity();
     poseto.translation() = Eigen::Vector3d( 0, 0, 0 );
-    for (int i=0;i<10;i++)
+    vector<float> coordenadas;
+    for (int i=0;i<numnodes;i++)
     {
       //Create pose
 
+          coordenadas=nodos[i].getcoordinates();
 
           //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
-          pose.translation() = Eigen::Vector3d( i, i, i ); // translate x,y,z
+          pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
           // Publish arrow vector of pose
           ROS_INFO_STREAM_NAMED("test","Publishing Arrow");
           visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
-          posename.translation() = Eigen::Vector3d( i, i, i+0.5);
-          visual_tools_->publishText(posename, "Nodo " + std::to_string(i), WHITE, rviz_visual_tools::XXXXLARGE, false);
+          posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
+          visual_tools_->publishText(posename, "Nodo " + std::to_string(nodos[i].getnodenumber()), WHITE, rviz_visual_tools::XXXXLARGE, false);
 
-          visual_tools_->publishCylinder(pose.translation(), poseto.translation(), BLUE, rviz_visual_tools::XXXLARGE);
+
           poseto=pose;
+    }
+    vector<int> endings;
+    for (int i=0;i<numberoftunnels;i++)
+    {
+      endings=tuneles[i].getendings();
 
+      coordenadas=nodos[endings.at(0)].getcoordinates();
+      pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+      coordenadas=nodos[endings.at(1)].getcoordinates();
+      poseto.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+      visual_tools_->publishCylinder(pose.translation(), poseto.translation(), BLUE, rviz_visual_tools::XXXLARGE);
     }
     visual_tools_->trigger();
   }
@@ -803,6 +816,7 @@ int main(int argc, char** argv)
       vector<Segment> segments(Numnodos*5);
       uniform_real_distribution<double> randomx(-RandomlocationdistX, RandomlocationdistX);
       uniform_real_distribution<double> randomy(-RandomlocationdistY, RandomlocationdistY);
+      uniform_real_distribution<double> randomz(-RandomlocationdistZ, RandomlocationdistZ);
 
       uniform_real_distribution<double> nodeh(MinNodeHeight, MaxNodeHeight);
       uniform_real_distribution<double> nodew(MinNodewidth, MaxNodewidth);
@@ -848,14 +862,14 @@ int main(int argc, char** argv)
           {
               x= randomx(mt);
               y= randomy(mt);
-              z= 0;
+              z= randomz(mt);
           }
           else
           {
               previousnodeposition=nodos[i-1].getcoordinates();
               x= randomx(mt)+previousnodeposition.at(0);
               y= randomy(mt)+previousnodeposition.at(1);
-              z= 0;
+              z= randomz(mt)+previousnodeposition.at(2);
           }
 
           nodos[i].setcoordinates(x,y,z);
@@ -1240,7 +1254,9 @@ int main(int argc, char** argv)
 
 
       }
+      demo.ploteo(Numnodos,nodos,enlaces,numberoftunnels,tuneles);
 
+      ROS_INFO_STREAM("Shutting down.");
 
 
 
@@ -1507,8 +1523,6 @@ int main(int argc, char** argv)
 
 
 
-  demo.testSizes(x_location);
 
-  ROS_INFO_STREAM("Shutting down.");
   return 0;
 }

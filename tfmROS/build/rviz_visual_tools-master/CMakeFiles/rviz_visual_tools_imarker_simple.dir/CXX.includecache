@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/adri/tfmROS/build/rviz_visual_tools-master/rviz_visual_tools_imarker_simple_autogen/mocs_compilation.cpp
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/build/rviz_visual_tools-master/rviz_visual_tools_imarker_simple_autogen/mocs_compilation.cpp
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/deprecation.h
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/deprecation.h
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/imarker_simple.h
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/imarker_simple.h
 ros/ros.h
 -
 geometry_msgs/PoseStamped.h
@@ -28,7 +28,7 @@ Eigen/Geometry
 string
 -
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/remote_control.h
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/remote_control.h
 string
 -
 ros/ros.h
@@ -36,7 +36,7 @@ ros/ros.h
 sensor_msgs/Joy.h
 -
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/rviz_visual_tools.h
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/include/rviz_visual_tools/rviz_visual_tools.h
 ros/ros.h
 -
 string
@@ -72,7 +72,7 @@ rviz_visual_tools/deprecation.h
 rviz_visual_tools/remote_control.h
 -
 
-/home/adri/tfmROS/src/rviz_visual_tools-master/src/imarker_simple.cpp
+/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/imarker_simple.cpp
 rviz_visual_tools/imarker_simple.h
 -
 rviz_visual_tools/rviz_visual_tools.h
