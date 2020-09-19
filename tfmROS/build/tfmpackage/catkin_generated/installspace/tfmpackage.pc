@@ -1,0 +1,8 @@
+prefix=/home/adri/tfmROS/install
+
+Name: tfmpackage
+Description: Description of tfmpackage
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
