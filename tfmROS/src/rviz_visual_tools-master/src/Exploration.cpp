@@ -146,9 +146,16 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
     actualnode=solutionpath[0];
 
     rviz_visual_tools::RvizVisualToolsDemo plot;
-    plot.ploteo(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back());
-    ros::Duration(5.0).sleep();
-    plot.plotroute(nodos,solutionpath);
+    //plot.ploteo(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back());
+    //ros::Duration(5.0).sleep();
+    //plot.plotroute(nodos,solutionpath);
+    int tunnelornode=0,actualtunnelornode=0;
+    //tunnelornode=0 is a tunnel
+    //tunnelornode=1 is a node
+
+    tunnelornode=1;
+    actualtunnelornode=actualnode;
+    plot.explorationplot(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back(),solutionpath,tunnelornode,actualtunnelornode);
     ros::Duration(2.0).sleep();
 
     std::cout << std::endl;
@@ -225,7 +232,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
 
         std::cout << "Tunnel transition. "<< std::endl;
         //Bad tunnel probability
-        ros::Duration(2.0).sleep();
+
         float badtunnel =  static_cast <float> (rand()) /( static_cast <float> (RAND_MAX));
 
         //float Pnodevariation;
@@ -319,8 +326,10 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
             }
 
         }
-
-      ros::Duration(1.0).sleep();
+        tunnelornode=0;
+        actualtunnelornode=realtunnelOOI;
+        plot.explorationplot(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back(),solutionpath,tunnelornode,actualtunnelornode);
+        ros::Duration(5.0).sleep();
         //OOI check
 
 
@@ -419,6 +428,10 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         //-------------------- Node arrival ----------------------------------------------------------------------
         pastnode=actualnode;
         actualnode=realnextnode;
+
+        tunnelornode=1;
+        actualtunnelornode=actualnode;
+        plot.explorationplot(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back(),solutionpath,tunnelornode,actualtunnelornode);
         ros::Duration(2.0).sleep();
 
         if (actualnode==9999)
