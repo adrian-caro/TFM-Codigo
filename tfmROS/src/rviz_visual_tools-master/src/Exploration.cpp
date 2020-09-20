@@ -3,6 +3,10 @@
 #include <iostream>
 #include <random>
 #include <math.h>
+#include <ros/ros.h>
+#include <rviz_visual_tools/rviz_visual_tools.h>
+#include "rviz_visual_tools_demo.cpp"
+
 
 Exploration::Exploration()
 {
@@ -130,7 +134,7 @@ void Exploration::sensoreadings(int nodenumber, Node *nodos)
 
 }
 
-int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles, vector<Pair> OOIlist)
+int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles, vector<Pair> OOIlist,int Numnodos,vector<Enlace> const& enlaces)
 {
 
     float uncertainty=1,pastuncertainty;
@@ -140,6 +144,13 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
     int solutionpathindex=0; //indicates the actual solution node where the robot is facing
     int actualnode, pastnode=solutionpath[0];
     actualnode=solutionpath[0];
+
+    rviz_visual_tools::RvizVisualToolsDemo plot;
+    plot.ploteo(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back());
+    ros::Duration(5.0).sleep();
+    plot.plotroute(nodos,solutionpath);
+    ros::Duration(2.0).sleep();
+
     std::cout << std::endl;
     std::cout << "------Exploration------" << std::endl;
     std::cout << std::endl;
@@ -157,6 +168,8 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
 
     random_device rd;
     mt19937 mt(rd());
+
+
 
     uniform_real_distribution<double> dist(0.0, explorationnodes[actualnode].getnumberofexits()-1);
     uniform_real_distribution<double> OOIdetection(0,1);
@@ -212,6 +225,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
 
         std::cout << "Tunnel transition. "<< std::endl;
         //Bad tunnel probability
+        ros::Duration(2.0).sleep();
         float badtunnel =  static_cast <float> (rand()) /( static_cast <float> (RAND_MAX));
 
         //float Pnodevariation;
@@ -306,7 +320,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
 
         }
 
-
+      ros::Duration(1.0).sleep();
         //OOI check
 
 
@@ -405,7 +419,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         //-------------------- Node arrival ----------------------------------------------------------------------
         pastnode=actualnode;
         actualnode=realnextnode;
-
+        ros::Duration(2.0).sleep();
 
         if (actualnode==9999)
         {

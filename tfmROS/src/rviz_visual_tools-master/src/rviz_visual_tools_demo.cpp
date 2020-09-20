@@ -146,12 +146,52 @@ public:
     visual_tools_->enableBatchPublishing();
   }
 
+
   void publishLabelHelper(const Eigen::Isometry3d& pose, const std::string& label)
   {
     Eigen::Isometry3d pose_copy = pose;
     pose_copy.translation().x() -= 0.2;
     visual_tools_->publishText(pose_copy, label, rvt::WHITE, rvt::XXLARGE, false);
   }
+
+  void plotroute(Node *nodos,vector<int> solutionpath)
+  {
+    Eigen::Isometry3d pose = Eigen::Isometry3d::Identity();
+    Eigen::Isometry3d poseto = Eigen::Isometry3d::Identity();
+    int i=0;
+    ROS_INFO_STREAM_NAMED("test","Publishing Route");
+    vector<float> coordenadas;
+
+    coordenadas=nodos[solutionpath.at(0)].getcoordinates();
+    pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+    //std::cout << coordenadas.at(0) << coordenadas.at(1) << coordenadas.at(2)<< std::endl;
+    coordenadas=nodos[solutionpath.at(1)].getcoordinates();
+    poseto.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+    //std::cout << coordenadas.at(0) << coordenadas.at(1) << coordenadas.at(2)<< std::endl;
+    visual_tools_->publishCylinder(pose.translation(), poseto.translation(),rviz_visual_tools::GREY , rviz_visual_tools::XXXLARGE);
+
+
+    while (i<solutionpath.size()-1)
+    {
+      coordenadas=nodos[solutionpath.at(i)].getcoordinates();
+      pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+      coordenadas=nodos[solutionpath.at(i+1)].getcoordinates();
+      poseto.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+      visual_tools_->publishCylinder(pose.translation(), poseto.translation(),rviz_visual_tools::GREY , rviz_visual_tools::XXXLARGE);
+      i++;
+    }
+
+    coordenadas=nodos[solutionpath.at(0)].getcoordinates();
+    pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+    //std::cout << coordenadas.at(0) << coordenadas.at(1) << coordenadas.at(2)<< std::endl;
+    coordenadas=nodos[solutionpath.at(1)].getcoordinates();
+    poseto.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
+    //std::cout << coordenadas.at(0) << coordenadas.at(1) << coordenadas.at(2)<< std::endl;
+    visual_tools_->publishCylinder(pose.translation(), poseto.translation(),rviz_visual_tools::GREY , rviz_visual_tools::XXXLARGE);
+
+        visual_tools_->trigger();
+  }
+
 
   void testRows(double& x_location)
   {
@@ -635,74 +675,17 @@ public:
   }
 
   /** \brief Compare every size range */
-  void ploteo(int numnodes,Node *nodos,vector<Enlace> const& enlaces,int numberoftunnels,Tunnel *tuneles)
+  void ploteo(int numnodes,Node *nodos,vector<Enlace> const& enlaces,int numberoftunnels,Tunnel *tuneles,int startnode, int endnode)
   {
     ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
 
-//    // Create pose
-//    Eigen::Isometry3d pose1 = Eigen::Isometry3d::Identity();
-//    Eigen::Isometry3d pose2 = Eigen::Isometry3d::Identity();
 
-//    // Show test label
-//    pose1.translation().x() = x_location - 0.1;
-//    visual_tools_->publishText(pose1, "Testing sizes of marker scale", WHITE, XLARGE, false);
-
-//    pose1.translation().x() = x_location;
-//    pose2.translation().x() = x_location;
-
-    // Sphere
-//    for (scales scale = XXXLARGE; scale <= XXXXLARGE; /*inline*/)
-//    {
-//      if (scale == MEDIUM)
-//      {
-//        visual_tools_->publishSphere(pose1, GREEN, scale);
-//      }
-//      else
-//      {
-//        visual_tools_->publishSphere(pose1, GREY, scale);
-//      }
-//      visual_tools_->publishText(pose2, "Nodo " + visual_tools_->scaleToString(scale), WHITE, scale, false);
-
-//      scale = static_cast<scales>(static_cast<int>(scale) + 1);
-//      pose1.translation().y() += visual_tools_->getScale(scale).x + 0.1;
-
-//      // Text location
-//      pose2.translation().y() = pose1.translation().y();
-//      pose2.translation().x() = x_location + visual_tools_->getScale(scale).x * 1.3;
-//    }
-
-    // Display test
-    //visual_tools_->trigger();
-
-    // Set x location for next visualization function
-    //x_location += 0.5;
-
-
-//    // Create pose
-
-//    Eigen::Isometry3d pose = Eigen::Isometry3d::Identity();
-//    //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
-//    pose.translation() = Eigen::Vector3d( 1, 1, 1 ); // translate x,y,z
-
-//    // Publish arrow vector of pose
-//    ROS_INFO_STREAM_NAMED("test","Publishing Arrow");
-//    visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
-//    visual_tools_->publishText(pose, "Nodo 1", WHITE, XLARGE, false);
-
-//    // Don't forget to trigger the publisher!
-
-
-
-//    pose = Eigen::Isometry3d::Identity();
-//    //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
-//    pose.translation() = Eigen::Vector3d( 2, 2, 2 ); // translate x,y,z
-//    visual_tools_->publishText(pose, "Nodo 2", WHITE, XLARGE, false);
-//    visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
     Eigen::Isometry3d pose = Eigen::Isometry3d::Identity();
     Eigen::Isometry3d poseto = Eigen::Isometry3d::Identity();
     Eigen::Isometry3d posename = Eigen::Isometry3d::Identity();
     poseto.translation() = Eigen::Vector3d( 0, 0, 0 );
     vector<float> coordenadas;
+    ROS_INFO_STREAM_NAMED("test","Publishing Nodes");
     for (int i=0;i<numnodes;i++)
     {
       //Create pose
@@ -712,8 +695,18 @@ public:
           //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
           pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
           // Publish arrow vector of pose
-          ROS_INFO_STREAM_NAMED("test","Publishing Arrow");
-          visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
+
+          if (i==startnode)
+          {
+            visual_tools_->publishSphere(pose, rviz_visual_tools::GREEN, rviz_visual_tools::XXXXLARGE);
+          }
+          else if (i==endnode)
+          {
+            visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
+          }
+          else {
+            visual_tools_->publishSphere(pose, rviz_visual_tools::BLUE, rviz_visual_tools::XXXXLARGE);
+          }
           posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
           visual_tools_->publishText(posename, "Nodo " + std::to_string(nodos[i].getnodenumber()), WHITE, rviz_visual_tools::XXXXLARGE, false);
 
@@ -729,7 +722,7 @@ public:
       pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
       coordenadas=nodos[endings.at(1)].getcoordinates();
       poseto.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) );
-      visual_tools_->publishCylinder(pose.translation(), poseto.translation(), BLUE, rviz_visual_tools::XXXLARGE);
+      visual_tools_->publishCylinder(pose.translation(), poseto.translation(),rviz_visual_tools::BLACK , rviz_visual_tools::XXLARGE);
     }
     visual_tools_->trigger();
   }
@@ -756,7 +749,9 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  rviz_visual_tools::RvizVisualToolsDemo demo;
+
+
+
 
   double x_location = 0;
   //demo.testRows(x_location);
@@ -804,6 +799,7 @@ int main(int argc, char** argv)
       int Numnodos;
       int explorationactualnode;
       cout << "Introduce the number of nodes of the desired graph: ";
+
       cin >> Numnodos;
       Node nodos[Numnodos+1];
       string name="N",result;
@@ -845,7 +841,7 @@ int main(int argc, char** argv)
 
           unknownodeR=OOIgeneration(mt);
 
-          if (unknownodeR<=unknownodeRatio)
+          if (unknownodeR<=unknownodeRatio && i!=0)
           {
               //Create unknown node
               nodos[i].settype(result);
@@ -1115,7 +1111,7 @@ int main(int argc, char** argv)
       char response;
 
       int search=2;
-      int startnode, goalnode;
+      int startnode = 0, goalnode = 0;
       do{
           std::cin>>response;
           switch(response)
@@ -1128,9 +1124,17 @@ int main(int argc, char** argv)
               search=1;
 
               break;
-          case 'N':   search=0;
+          case 'N':
+            search=0;
+            goalnode=0;
+            startnode=0;
+
               break;
           case 'n':   search=0;
+            goalnode=0;
+            startnode=0;
+
+
               break;
           default: std::cout<<"Invalid choice" << std::endl;
               break;
@@ -1141,14 +1145,14 @@ int main(int argc, char** argv)
       vector<int> solutionpath;
       if (search==1)
       {
-          int searchmode;
+          int searchmode = 0;
           std::cout << "Select start mode." << std::endl;
           std::cout << "1. Lost start mode" << std::endl;
           std::cout << "2. Known start node" << std::endl;
           cout << "--------------------" << std::endl;
           cout << "Mode:";
 
-          int lostnode;
+          int lostnode = 0;
 
 
 
@@ -1171,6 +1175,7 @@ int main(int argc, char** argv)
                   std::cout << "Set goal node:" << std::endl;
                   std::cin >> goalnode;
 
+                break;
               default: std::cout<<"Invalid choice" << std::endl;
                   break;
               }
@@ -1235,10 +1240,10 @@ int main(int argc, char** argv)
           }
 
 
-          std::cout << std::endl;\
+          std::cout << std::endl;
 
 
-          explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist);
+          explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
 
           while (explorationactualnode!=solutionpath[solutionpath.size()-1])
           {
@@ -1247,14 +1252,19 @@ int main(int argc, char** argv)
               solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
 
 
-              explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist);
+              explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
           }
 
 
 
 
       }
-      demo.ploteo(Numnodos,nodos,enlaces,numberoftunnels,tuneles);
+      else if(search==0)
+      {
+        rviz_visual_tools::RvizVisualToolsDemo demo;
+        demo.ploteo(Numnodos,nodos,enlaces,numberoftunnels,tuneles,startnode,goalnode);
+      }
+
 
       ROS_INFO_STREAM("Shutting down.");
 
@@ -1447,8 +1457,12 @@ int main(int argc, char** argv)
               std::cin >> goalnode;
               break;
           case 'N':   search=0;
+            goalnode=0;
+            startnode=0;
               break;
           case 'n':   search=0;
+            goalnode=0;
+            startnode=0;
               break;
           default: std::cout<<"Invalid choice" << std::endl;
               break;
@@ -1515,7 +1529,7 @@ int main(int argc, char** argv)
       std::cout << std::endl;\
       Exploration exploration1;
 
-      exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist);
+      exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
 
 
       int asd=exploration1.lost(nodos,Numnodos,5);

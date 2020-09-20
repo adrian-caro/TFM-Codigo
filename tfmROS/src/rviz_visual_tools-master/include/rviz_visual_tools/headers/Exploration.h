@@ -23,7 +23,7 @@ private:
 
 public:
     Exploration();
-    int explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles,vector<Pair> OOIlist);
+    int explorationalgorithm(Node *nodos, vector<int> solutionpath, Tunnel *tuneles, int numtuneles,vector<Pair> OOIlist, int Numnodos,vector<Enlace> const& enlaces);
     int lost(Node *nodos, int Numnodos, int actualnode);
     void sensoreadings(int nodenumber, Node *nodos);
     float nodecomparison(int realnode, int mapnode, Node *nodos);
