@@ -1,41 +1,3 @@
-/*********************************************************************
- * Software License Agreement (BSD License)
- *
- *  Copyright (c) 2017, PickNik Consulting
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions
- *  are met:
- *
- *   * Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above
- *     copyright notice, this list of conditions and the following
- *     disclaimer in the documentation and/or other materials provided
- *     with the distribution.
- *   * Neither the name of the Univ of CO, Boulder nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *  POSSIBILITY OF SUCH DAMAGE.
- *********************************************************************/
-
-/* Author: Dave Coleman
-   Desc:   Demo implementation of rviz_visual_tools
-           To use, add a Rviz Marker Display subscribed to topic /rviz_visual_tools
-*/
 
 // ROS
 #include <ros/ros.h>
@@ -147,12 +109,6 @@ public:
   }
 
 
-  void publishLabelHelper(const Eigen::Isometry3d& pose, const std::string& label)
-  {
-    Eigen::Isometry3d pose_copy = pose;
-    pose_copy.translation().x() -= 0.2;
-    visual_tools_->publishText(pose_copy, label, rvt::WHITE, rvt::XXLARGE, false);
-  }
 
   void plotroute(Node *nodos,vector<int> solutionpath)
   {
@@ -189,13 +145,13 @@ public:
     //std::cout << coordenadas.at(0) << coordenadas.at(1) << coordenadas.at(2)<< std::endl;
     visual_tools_->publishCylinder(pose.translation(), poseto.translation(),rviz_visual_tools::GREY , rviz_visual_tools::XXXLARGE);
 
-        visual_tools_->trigger();
+    visual_tools_->trigger();
   }
 
   /** \brief Compare every size range */
   void ploteo(int numnodes,Node *nodos,vector<Enlace> const& enlaces,int numberoftunnels,Tunnel *tuneles,int startnode, int endnode)
   {
-    ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
+    //ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
 
 
     Eigen::Isometry3d pose = Eigen::Isometry3d::Identity();
@@ -208,28 +164,28 @@ public:
     {
       //Create pose
 
-          coordenadas=nodos[i].getcoordinates();
+      coordenadas=nodos[i].getcoordinates();
 
-          //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
-          pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
-          // Publish arrow vector of pose
+      //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
+      pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
+      // Publish arrow vector of pose
 
-          if (i==startnode)
-          {
-            visual_tools_->publishSphere(pose, rviz_visual_tools::GREEN, rviz_visual_tools::XXXXLARGE);
-          }
-          else if (i==endnode)
-          {
-            visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
-          }
-          else {
-            visual_tools_->publishSphere(pose, rviz_visual_tools::BLUE, rviz_visual_tools::XXXXLARGE);
-          }
-          posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
-          visual_tools_->publishText(posename, "Nodo " + std::to_string(nodos[i].getnodenumber()), WHITE, rviz_visual_tools::XXXXLARGE, false);
+      if (i==startnode)
+      {
+        visual_tools_->publishSphere(pose, rviz_visual_tools::GREEN, rviz_visual_tools::XXXXLARGE);
+      }
+      else if (i==endnode)
+      {
+        visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
+      }
+      else {
+        visual_tools_->publishSphere(pose, rviz_visual_tools::BLUE, rviz_visual_tools::XXXXLARGE);
+      }
+      posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
+      visual_tools_->publishText(posename, "Node " + nodos[i].gettype(), WHITE, rviz_visual_tools::XXXXLARGE, false);
 
 
-          poseto=pose;
+      poseto=pose;
     }
     vector<int> endings;
     for (int i=0;i<numberoftunnels;i++)
@@ -247,7 +203,7 @@ public:
 
   void explorationplot(int numnodes,Node *nodos,vector<Enlace> const& enlaces,int numberoftunnels,Tunnel *tuneles,int startnode, int endnode,vector<int> solutionpath,int tunnelornode,int actualtunnelornode)
   {
-    ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
+    //ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
     visual_tools_->deleteAllMarkers();
 
     Eigen::Isometry3d pose = Eigen::Isometry3d::Identity();
@@ -259,29 +215,29 @@ public:
     {
       //Create pose
 
-          coordenadas=nodos[i].getcoordinates();
+      coordenadas=nodos[i].getcoordinates();
 
-          //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
-          pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
-          // Publish arrow vector of pose
-          if(i!=actualtunnelornode){
-            if (i==startnode)
-            {
-              visual_tools_->publishSphere(pose, rviz_visual_tools::GREEN, rviz_visual_tools::XXXXLARGE);
-            }
-            else if (i==endnode)
-            {
-              visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
-            }
-            else {
-              visual_tools_->publishSphere(pose, rviz_visual_tools::BLUE, rviz_visual_tools::XXXXLARGE);
-            }
-          }
-          posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
-          visual_tools_->publishText(posename, "Nodo " + std::to_string(nodos[i].getnodenumber()), WHITE, rviz_visual_tools::XXXXLARGE, false);
+      //pose = Eigen::AngleAxisd(M_PI/4, Eigen::Vector3d::UnitY()); // rotate along X axis by 45 degrees
+      pose.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2) ); // translate x,y,z
+      // Publish arrow vector of pose
+      if(i!=actualtunnelornode){
+        if (i==startnode)
+        {
+          visual_tools_->publishSphere(pose, rviz_visual_tools::GREEN, rviz_visual_tools::XXXXLARGE);
+        }
+        else if (i==endnode)
+        {
+          visual_tools_->publishSphere(pose, rviz_visual_tools::RED, rviz_visual_tools::XXXXLARGE);
+        }
+        else {
+          visual_tools_->publishSphere(pose, rviz_visual_tools::BLUE, rviz_visual_tools::XXXXLARGE);
+        }
+      }
+      posename.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5);
+      visual_tools_->publishText(posename, "Node " + nodos[i].gettype(), WHITE, rviz_visual_tools::XXXXLARGE, false);
 
 
-          poseto=pose;
+      poseto=pose;
     }
     vector<int> endings;
     for (int i=0;i<numberoftunnels;i++)
@@ -347,7 +303,7 @@ public:
       // Publish arrow vector of pose
 
 
-        visual_tools_->publishSphere(pose, rviz_visual_tools::ORANGE, rviz_visual_tools::XXXXLARGE);
+      visual_tools_->publishSphere(pose, rviz_visual_tools::ORANGE, rviz_visual_tools::XXXXLARGE);
     }
 
 
@@ -406,169 +362,291 @@ int main(int argc, char** argv)
 
 
   do{
-      std::cin >> inputmode;
+    std::cin >> inputmode;
 
-      switch(inputmode)
-      {
-      case '1':
+    switch(inputmode)
+    {
+    case '1':
 
-          break;
-      case '2':
+      break;
+    case '2':
 
-          break;
-      default:
-          std::cout<<"Invalid choice" << std::endl;
+      break;
+    default:
+      std::cout<<"Invalid choice" << std::endl;
 
-      }
+    }
   }while(inputmode!='1' &&  inputmode!='2');
 
 
 
   if (inputmode=='2')
   {
-      cout<< std::endl;
-      std::cout<<"Generating a random graph" << std::endl;
-      //Grafo grafito;
-      int Numnodos;
-      int explorationactualnode;
-      cout << "Introduce the number of nodes of the desired graph: ";
+    cout<< std::endl;
+    std::cout<<"Generating a random graph" << std::endl;
+    //Grafo grafito;
+    int Numnodos;
+    int explorationactualnode;
 
-      cin >> Numnodos;
-      Node nodos[Numnodos+1];
-      string name="N",result;
+    cout << "Introduce the number of nodes of the desired graph: ";
 
-      random_device rd;
-      mt19937 mt(rd());
+    cin >> Numnodos;
+    Node nodos[Numnodos+1];
+    string name="N",result;
 
-      OOI OOIs[Numnodos];
-      Tunnel tuneles[Numnodos*4];
-      vector<Segment> segments(Numnodos*5);
-      uniform_real_distribution<double> randomx(-RandomlocationdistX, RandomlocationdistX);
-      uniform_real_distribution<double> randomy(-RandomlocationdistY, RandomlocationdistY);
-      uniform_real_distribution<double> randomz(-RandomlocationdistZ, RandomlocationdistZ);
+    random_device rd;
+    mt19937 mt(rd());
 
-      uniform_real_distribution<double> nodeh(MinNodeHeight, MaxNodeHeight);
-      uniform_real_distribution<double> nodew(MinNodewidth, MaxNodewidth);
-      uniform_real_distribution<double> noded(MinNodedepth, MaxNodedepth);
-      float x,y,z,OOIratio;
-      vector<float> previousnodeposition;
+    OOI OOIs[Numnodos];
+    Tunnel tuneles[Numnodos*4];
+    vector<Segment> segments(Numnodos*5);
+    uniform_real_distribution<double> randomx(-RandomlocationdistX, RandomlocationdistX);
+    uniform_real_distribution<double> randomy(-RandomlocationdistY, RandomlocationdistY);
+    uniform_real_distribution<double> randomz(-RandomlocationdistZ, RandomlocationdistZ);
 
-      uniform_real_distribution<double> OOIgeneration(0,1);
+    uniform_real_distribution<double> nodeh(MinNodeHeight, MaxNodeHeight);
+    uniform_real_distribution<double> nodew(MinNodewidth, MaxNodewidth);
+    uniform_real_distribution<double> noded(MinNodedepth, MaxNodedepth);
+    float x,y,z,OOIratio;
+    vector<float> previousnodeposition;
 
-      for (int i=0;i<Numnodos;i++)
+    uniform_real_distribution<double> OOIgeneration(0,1);
+
+    for (int i=0;i<Numnodos;i++)
+    {
+      result = name + std::to_string(i);
+
+      OOIratio= OOIgeneration(mt);
+
+      if (OOIratio<OOIgenerationRatio) //If the random number is lower than OOIgenerationRatio, then a OOI is generated
       {
-          result = name + std::to_string(i);
+        //Create an OOI
 
-          OOIratio= OOIgeneration(mt);
-
-          if (OOIratio<OOIgenerationRatio) //If the random number is lower than OOIgenerationRatio, then a OOI is generated
-          {
-              //Create an OOI
-
-              OOIs[OOI_ID].setID(OOI_ID);
-              OOIlist.push_back(make_pair(OOI_ID,i));
-              nodos[i].addOOI(&OOIs[OOI_ID]);
-              //OOIs[OOI_ID].
-              OOI_ID++;
-          }
-
-          unknownodeR=OOIgeneration(mt);
-
-          if (unknownodeR<=unknownodeRatio && i!=0)
-          {
-              //Create unknown node
-              nodos[i].settype(result);
-              nodos[i].setnodenumber(9999);
-
-          }
-          else
-          {
-              nodos[i].settype(result);
-              nodos[i].setnodenumber(i);
-          }
-
-          if (i==0)
-          {
-              x= randomx(mt);
-              y= randomy(mt);
-              z= randomz(mt);
-          }
-          else
-          {
-              previousnodeposition=nodos[i-1].getcoordinates();
-              x= randomx(mt)+previousnodeposition.at(0);
-              y= randomy(mt)+previousnodeposition.at(1);
-              z= randomz(mt)+previousnodeposition.at(2);
-          }
-
-          nodos[i].setcoordinates(x,y,z);
-          nodos[i].setheight(nodeh(mt));
-          nodos[i].setwidth(nodew(mt));
-          nodos[i].setdepth(noded(mt));
+        OOIs[OOI_ID].setID(OOI_ID);
+        OOIlist.push_back(make_pair(OOI_ID,i));
+        nodos[i].addOOI(&OOIs[OOI_ID]);
+        //OOIs[OOI_ID].
+        OOI_ID++;
       }
-      float var7,var3,var4,var5,var6;
 
-      //Node 0 Entrance
-      vector<float> coordi;
-      coordi=nodos[4].getcoordinates();
+      unknownodeR=OOIgeneration(mt);
 
-
-      //connected node
-      var7=1;
-      //height
-      uniform_real_distribution<double> dist11(MinHeight, MaxHeight);
-      var3= dist11(mt);
-      //width
-      uniform_real_distribution<double> dist12(Minwidth, Maxwidth);
-      var4= dist12(mt);
-      //HorizontalOrientation
-      uniform_real_distribution<double> dist13(MinHorizontalOrientation, MaxHorizontalOrientation);
-      var5= dist13(mt);
-      //VerticalOrientation
-      uniform_real_distribution<double> dist14(MinVerticalOrientation, MaxVerticalOrientation);
-      var6= dist14(mt);
-
-      nodos[0].setexitprop(var7,var3,var4,var5,var6);
-      nodos[0].setnumberofexits(1);
-      nodos[1].setexitprop(0,var3,var4,var5,var6);
-      nodos[1].setnumberofexits(1);
-
-
-
-      int numberofexits;
-      float tempor;
-      int connectingnode,tempnumexits;
-      uniform_real_distribution<double> dist(-5, 5);
-      uniform_real_distribution<double> tunnn(MinNumberoftunnels, MaxNumberoftunnels);
-      uniform_real_distribution<double> tunnseg(Mintunnelsegments, Maxtunnelsegments);
-
-      uniform_real_distribution<double> dist20(Minsegmentlength, Maxsegmentlength);
-      uniform_real_distribution<double> dist21(Minsegmentwidth, Maxsegmentwidth);
-      uniform_real_distribution<double> dist22(Minsegmentheight, Maxsegmentheight);
-      uniform_real_distribution<double> dist23(Minsegmentlope, Maxsegmentlope);
-
-
-      vector<Enlace> enlaces;
-
-      std::string tunnelname;
-      int tunnelnumber=0, segmentnumber;
-      int start, final, nuseg,segcounter=0;
-      float longitud;
-      int numberoftunnels=0;
-
-      tempor = tunnseg(mt);
-      nuseg=round(tempor);
-      tunnelname=std::to_string(tunnelnumber);
-      tuneles[numberoftunnels].setname(tunnelname);
-      tuneles[numberoftunnels].setstartnode(0);
-      tuneles[numberoftunnels].setfinalnode(1);
-      tuneles[numberoftunnels].setnumberofsegments(nuseg);
-
-
-
-      //creates as many segments as the tunnel has=
-      for (int j=0;j<nuseg;j++)
+      if (unknownodeR<=unknownodeRatio && i!=0)
       {
+        //Create unknown node
+        nodos[i].settype("Unknown");
+        //nodos[i].setnodenumber(9999);
+
+      }
+      else
+      {
+        nodos[i].settype(result);
+        nodos[i].setnodenumber(i);
+      }
+
+      if (i==0)
+      {
+        x= randomx(mt);
+        y= randomy(mt);
+        z= randomz(mt);
+      }
+      else
+      {
+        previousnodeposition=nodos[i-1].getcoordinates();
+        x= randomx(mt)+previousnodeposition.at(0);
+        y= randomy(mt)+previousnodeposition.at(1);
+        z= randomz(mt)+previousnodeposition.at(2);
+      }
+
+      nodos[i].setcoordinates(x,y,z);
+      nodos[i].setheight(nodeh(mt));
+      nodos[i].setwidth(nodew(mt));
+      nodos[i].setdepth(noded(mt));
+    }
+    float var7,var3,var4,var5,var6;
+
+    //Node 0 Entrance
+    vector<float> coordi;
+    coordi=nodos[4].getcoordinates();
+
+
+    //connected node
+    var7=1;
+    //height
+    uniform_real_distribution<double> dist11(MinHeight, MaxHeight);
+    var3= dist11(mt);
+    //width
+    uniform_real_distribution<double> dist12(Minwidth, Maxwidth);
+    var4= dist12(mt);
+    //HorizontalOrientation
+    uniform_real_distribution<double> dist13(MinHorizontalOrientation, MaxHorizontalOrientation);
+    var5= dist13(mt);
+    //VerticalOrientation
+    uniform_real_distribution<double> dist14(MinVerticalOrientation, MaxVerticalOrientation);
+    var6= dist14(mt);
+
+    nodos[0].setexitprop(var7,var3,var4,var5,var6);
+    nodos[0].setnumberofexits(1);
+    nodos[1].setexitprop(0,var3,var4,var5,var6);
+    nodos[1].setnumberofexits(1);
+
+
+
+    int numberofexits;
+    float tempor;
+    int connectingnode,tempnumexits;
+    uniform_real_distribution<double> dist(-5, 5);
+    uniform_real_distribution<double> tunnn(MinNumberoftunnels, MaxNumberoftunnels);
+    uniform_real_distribution<double> tunnseg(Mintunnelsegments, Maxtunnelsegments);
+
+    uniform_real_distribution<double> dist20(Minsegmentlength, Maxsegmentlength);
+    uniform_real_distribution<double> dist21(Minsegmentwidth, Maxsegmentwidth);
+    uniform_real_distribution<double> dist22(Minsegmentheight, Maxsegmentheight);
+    uniform_real_distribution<double> dist23(Minsegmentlope, Maxsegmentlope);
+
+
+    vector<Enlace> enlaces;
+
+    std::string tunnelname;
+    int tunnelnumber=0, segmentnumber;
+    int nuseg,segcounter=0;
+    float longitud;
+    int numberoftunnels=0;
+
+    tempor = tunnseg(mt);
+    nuseg=round(tempor);
+    tunnelname=std::to_string(tunnelnumber);
+    tuneles[numberoftunnels].setname(tunnelname);
+    tuneles[numberoftunnels].setstartnode(0);
+    tuneles[numberoftunnels].setfinalnode(1);
+    tuneles[numberoftunnels].setnumberofsegments(nuseg);
+
+
+
+    //creates as many segments as the tunnel has=
+    for (int j=0;j<nuseg;j++)
+    {
+
+      segments[segcounter].setlength(dist20(mt));
+      segments[segcounter].setwidth(dist21(mt));
+      segments[segcounter].setheight(dist22(mt));
+      segments[segcounter].setslope(dist23(mt));
+      tuneles[numberoftunnels].addsegment(&segments[segcounter]);
+      segcounter++;
+    }
+
+    longitud=tuneles[numberoftunnels].getlength();
+    //tuneles[numberoftunnels].printtunnel();
+
+    //creates links in the node adjacency list
+    enlaces.push_back({0,1,longitud});
+
+    numberoftunnels++;
+    tunnelnumber++;
+    segmentnumber++;
+
+
+
+
+    for (int j=1;j<Numnodos;j++)
+    {
+      tempor = tunnn(mt);
+      //numberofexits=round(tempor);
+      numberofexits=3;
+      segmentnumber=0;
+      int repetido=0;
+
+      if (nodos[j].gettype()=="Unknown")
+      {
+        numberofexits=1;
+      }
+
+      for (int i=nodos[j].getnumberofexits();i<numberofexits;i++)
+      {
+
+        repetido=0;
+        tempor = dist(mt);
+        connectingnode=round(tempor)+j;
+
+        for (int k=0; k<enlaces.size();k++)
+        {
+          if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
+          {
+            repetido=1;
+          }
+          if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
+          {
+            repetido=1;
+          }
+        }
+
+        while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels ||nodos[connectingnode].gettype()=="Unknown" || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1 || repetido==1)
+        {
+          repetido=0;
+          tempor = dist(mt);
+          connectingnode=round(tempor)+j;
+
+          for (int k=0; k<enlaces.size();k++)
+          {
+            if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
+            {
+              repetido=1;
+            }
+            if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
+            {
+              repetido=1;
+            }
+          }
+        }
+        //connected node
+        var7 = connectingnode;
+        //height
+        var3 = dist11(mt);
+        //width
+        var4 = dist12(mt);
+        //HorizontalOrientation
+        var5 = dist13(mt);
+        //VerticalOrientation
+        var6 = dist14(mt);
+
+        nodos[j].setexitprop(var7,var3,var4,var5,var6);
+        tempnumexits=nodos[j].getnumberofexits();
+        nodos[j].setnumberofexits(tempnumexits+1);
+
+        nodos[connectingnode].setexitprop(j,var3,var4,var5,var6);
+        tempnumexits=nodos[connectingnode].getnumberofexits();
+        nodos[connectingnode].setnumberofexits(tempnumexits+1);
+
+        tunnelname=std::to_string(tunnelnumber);
+        tuneles[numberoftunnels].setname(tunnelname);
+        tuneles[numberoftunnels].setstartnode(j);
+        tuneles[numberoftunnels].setfinalnode(connectingnode);
+        vector<float> coordenadas1, coordenadas2;
+        coordenadas1=nodos[j].getcoordinates();
+        coordenadas2=nodos[connectingnode].getcoordinates();
+        tuneles[numberoftunnels].setlenght(sqrt(   pow((coordenadas1.at(0)-coordenadas2.at(0)),2)+pow((coordenadas1.at(1)-coordenadas2.at(1)),2)+ pow((coordenadas1.at(2)-coordenadas2.at(2)),2)       ));
+
+        tempor = tunnseg(mt);
+        nuseg=round(tempor);
+
+        OOIratio= OOIgeneration(mt);
+        if (OOIratio<OOIgenerationRatio) //If the random number is lower than OOIgenerationRatio, then a OOI is generated
+        {
+          //Create an OOI
+
+          OOIs[OOI_ID].setID(OOI_ID+Numnodos*2);
+          OOIlist.push_back(make_pair(OOI_ID+Numnodos*2,numberoftunnels));
+          tuneles[numberoftunnels].addOOI(&OOIs[OOI_ID]);
+          //OOIs[OOI_ID].
+          OOI_ID++;
+        }
+
+        tuneles[numberoftunnels].setnumberofsegments(nuseg);
+
+
+        //creates as many segments as the tunnel has
+        for (int j=0;j<nuseg;j++)
+        {
 
           segments[segcounter].setlength(dist20(mt));
           segments[segcounter].setwidth(dist21(mt));
@@ -576,330 +654,214 @@ int main(int argc, char** argv)
           segments[segcounter].setslope(dist23(mt));
           tuneles[numberoftunnels].addsegment(&segments[segcounter]);
           segcounter++;
+        }
+
+
+        longitud=tuneles[numberoftunnels].getlength();
+
+
+        //creates links in the node adjacency list
+        enlaces.push_back({j,connectingnode,longitud});
+
+        numberoftunnels++;
+        tunnelnumber++;
+        segmentnumber++;
       }
 
-      longitud=tuneles[numberoftunnels].getlength();
-      //tuneles[numberoftunnels].printtunnel();
 
-      //creates links in the node adjacency list
-      enlaces.push_back({0,1,longitud});
+    }
+    std::cout  << std::endl;
+    std::cout << "------Nodes input------" << std::endl;
+    std::cout  << std::endl;
+    for (int i=0; i<Numnodos;i++)
+    {
+      nodos[i].printnode();
+    }
 
-      numberoftunnels++;
-      tunnelnumber++;
-      segmentnumber++;
+    std::cout  << std::endl;
+    std::cout << "------Tunnels input------" << std::endl;
+    std::cout  << std::endl;
 
 
+    for (int i=0; i<numberoftunnels;i++)
+    {
+      tuneles[i].printtunnel();
+    }
+
+    std::cout << std::endl;
+    std::cout << "------Node adjacency list------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
+    std::cout << std::endl;
+
+    //Constructs the graph
+    Grafo grafo(enlaces, Numnodos,nodos);
+
+    //Print adjacency list representation of the graph
+    grafo.printGraph(grafo, Numnodos);
+    std::cout << std::endl;
 
 
-      for (int j=1;j<Numnodos;j++)
+    std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
+    char response;
+
+    int search=2;
+    int startnode = 0, goalnode = 0;
+    do{
+      std::cin>>response;
+      switch(response)
       {
-          tempor = tunnn(mt);
-          //numberofexits=round(tempor);
-          numberofexits=3;
-          segmentnumber=0;
-          int repetido=0;
+      case 'Y':
+        search=1;
 
-          if (nodos[j].getnodenumber()==9999)
-          {
-              numberofexits=1;
-          }
+        break;
+      case 'y':
+        search=1;
 
-          for (int i=nodos[j].getnumberofexits();i<numberofexits;i++)
-          {
+        break;
+      case 'N':
+        search=0;
+        goalnode=0;
+        startnode=0;
 
-              repetido=0;
-              tempor = dist(mt);
-              connectingnode=round(tempor)+j;
-
-              for (int k=0; k<enlaces.size();k++)
-              {
-                  if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
-                  {
-                      repetido=1;
-                  }
-                  if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
-                  {
-                      repetido=1;
-                  }
-              }
-
-              while (nodos[connectingnode].getnumberofexits()>=MaxNumberoftunnels ||nodos[connectingnode].getnodenumber()==9999 || connectingnode==j || connectingnode<=0 || connectingnode>Numnodos-1 || repetido==1)
-              {
-                  repetido=0;
-                  tempor = dist(mt);
-                  connectingnode=round(tempor)+j;
-
-                  for (int k=0; k<enlaces.size();k++)
-                  {
-                      if (enlaces[k].nodofuente==connectingnode && enlaces[k].nododestino==j)
-                      {
-                          repetido=1;
-                      }
-                      if (enlaces[k].nododestino==connectingnode && enlaces[k].nodofuente==j)
-                      {
-                          repetido=1;
-                      }
-                  }
-              }
-              //connected node
-              var7 = connectingnode;
-              //height
-              var3 = dist11(mt);
-              //width
-              var4 = dist12(mt);
-              //HorizontalOrientation
-              var5 = dist13(mt);
-              //VerticalOrientation
-              var6 = dist14(mt);
-
-              nodos[j].setexitprop(var7,var3,var4,var5,var6);
-              tempnumexits=nodos[j].getnumberofexits();
-              nodos[j].setnumberofexits(tempnumexits+1);
-
-              nodos[connectingnode].setexitprop(j,var3,var4,var5,var6);
-              tempnumexits=nodos[connectingnode].getnumberofexits();
-              nodos[connectingnode].setnumberofexits(tempnumexits+1);
-
-              tunnelname=std::to_string(tunnelnumber);
-              tuneles[numberoftunnels].setname(tunnelname);
-              tuneles[numberoftunnels].setstartnode(j);
-              tuneles[numberoftunnels].setfinalnode(connectingnode);
-
-              tempor = tunnseg(mt);
-              nuseg=round(tempor);
-
-              OOIratio= OOIgeneration(mt);
-              if (OOIratio<OOIgenerationRatio) //If the random number is lower than OOIgenerationRatio, then a OOI is generated
-              {
-                  //Create an OOI
-
-                  OOIs[OOI_ID].setID(OOI_ID+Numnodos*2);
-                  OOIlist.push_back(make_pair(OOI_ID+Numnodos*2,numberoftunnels));
-                  tuneles[numberoftunnels].addOOI(&OOIs[OOI_ID]);
-                  //OOIs[OOI_ID].
-                  OOI_ID++;
-              }
-
-              tuneles[numberoftunnels].setnumberofsegments(nuseg);
+        break;
+      case 'n':   search=0;
+        goalnode=0;
+        startnode=0;
 
 
-              //creates as many segments as the tunnel has
-              for (int j=0;j<nuseg;j++)
-              {
-
-                  segments[segcounter].setlength(dist20(mt));
-                  segments[segcounter].setwidth(dist21(mt));
-                  segments[segcounter].setheight(dist22(mt));
-                  segments[segcounter].setslope(dist23(mt));
-                  tuneles[numberoftunnels].addsegment(&segments[segcounter]);
-                  segcounter++;
-              }
-
-              longitud=tuneles[numberoftunnels].getlength();
-
-
-              //creates links in the node adjacency list
-              enlaces.push_back({j,connectingnode,longitud});
-
-              numberoftunnels++;
-              tunnelnumber++;
-              segmentnumber++;
-          }
-
-
+        break;
+      default: std::cout<<"Invalid choice" << std::endl;
+        break;
       }
-      std::cout  << std::endl;
-      std::cout << "------Nodes input------" << std::endl;
-      std::cout  << std::endl;
-      for (int i=0; i<Numnodos;i++)
-      {
-          nodos[i].printnode();
-      }
-
-      std::cout  << std::endl;
-      std::cout << "------Tunnels input------" << std::endl;
-      std::cout  << std::endl;
+    }while(search!=0 && search!=1);
 
 
-      for (int i=0; i<numberoftunnels;i++)
-      {
-          tuneles[i].printtunnel();
-      }
+    vector<int> solutionpath;
+    if (search==1)
+    {
+      int searchmode = 0;
+      std::cout << "Select start mode." << std::endl;
+      std::cout << "1. Lost start mode" << std::endl;
+      std::cout << "2. Known start node" << std::endl;
+      cout << "--------------------" << std::endl;
+      cout << "Mode:";
 
-      std::cout << std::endl;
-      std::cout << "------Node adjacency list------" << std::endl;
-      std::cout << std::endl;
-      std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
-      std::cout << std::endl;
-
-      //Constructs the graph
-      Grafo grafo(enlaces, Numnodos,nodos);
-
-      //Print adjacency list representation of the graph
-      grafo.printGraph(grafo, Numnodos);
-      std::cout << std::endl;
+      int lostnode = 0;
 
 
-      std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
-      char response;
 
-      int search=2;
-      int startnode = 0, goalnode = 0;
+      char answer;
       do{
-          std::cin>>response;
-          switch(response)
-          {
-          case 'Y':
-              search=1;
+        std::cin>>answer;
+        switch(answer)
+        {
+        case '1':
+          searchmode=1;
+          std::cout << "Set start lost node:" << std::endl;
+          std::cin >> lostnode;
+          std::cout << "Set goal node:" << std::endl;
+          std::cin >> goalnode;
+          break;
+        case '2':
+          searchmode=2;
+          std::cout << "Set start node:" << std::endl;
+          std::cin >> startnode;
+          std::cout << "Set goal node:" << std::endl;
+          std::cin >> goalnode;
 
-              break;
-          case 'y':
-              search=1;
-
-              break;
-          case 'N':
-            search=0;
-            goalnode=0;
-            startnode=0;
-
-              break;
-          case 'n':   search=0;
-            goalnode=0;
-            startnode=0;
-
-
-              break;
-          default: std::cout<<"Invalid choice" << std::endl;
-              break;
-          }
-      }while(search!=0 && search!=1);
+          break;
+        default: std::cout<<"Invalid choice" << std::endl;
+          break;
+        }
+      }while(answer!='1' && answer!='2');
 
 
-      vector<int> solutionpath;
-      if (search==1)
+      Exploration exploration1;
+
+      if (searchmode==1)
       {
-          int searchmode = 0;
-          std::cout << "Select start mode." << std::endl;
-          std::cout << "1. Lost start mode" << std::endl;
-          std::cout << "2. Known start node" << std::endl;
-          cout << "--------------------" << std::endl;
-          cout << "Mode:";
-
-          int lostnode = 0;
-
-
-
-          char answer;
-          do{
-              std::cin>>answer;
-              switch(answer)
-              {
-              case '1':
-                  searchmode=1;
-                  std::cout << "Set start lost node:" << std::endl;
-                  std::cin >> lostnode;
-                  std::cout << "Set goal node:" << std::endl;
-                  std::cin >> goalnode;
-                  break;
-              case '2':
-                  searchmode=2;
-                  std::cout << "Set start node:" << std::endl;
-                  std::cin >> startnode;
-                  std::cout << "Set goal node:" << std::endl;
-                  std::cin >> goalnode;
-
-                break;
-              default: std::cout<<"Invalid choice" << std::endl;
-                  break;
-              }
-          }while(answer!='1' && answer!='2');
-
-
-          Exploration exploration1;
-
-          if (searchmode==1)
-          {
-              startnode=exploration1.lost(nodos,Numnodos,lostnode);
-          }
-
-
-
-          //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
-
-          Dijkstra search;
-          solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
-          int a,b;
-
-              std::cout << std::endl;
-          //std::cout << "Solution tunnel and segments sequence:" << std::endl;
-              std::cout << std::endl;
-
-          vector<Segment*> segmentpath,segmentemp;
-          for(int i=0; i<solutionpath.size()-1;i++){
-              a=solutionpath.at(i);
-              b=solutionpath.at(i+1);
-
-              //search tunnel between nodes
-              vector<int> temp;
-
-              for(int j=0;j<numberoftunnels;j++)
-              {
-                  temp=tuneles[j].getendings();
-
-
-                  if(temp.at(0)==a && temp.at(1)==b)
-                  {
-                      segmentemp=tuneles[j].getsegments();
-                      //tuneles[j].printtunnel();
-                      for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
-                      {
-                          segmentpath.push_back(segmentemp.at(i));
-                      }
-                  }
-
-
-                  if(temp.at(0)==b && temp.at(1)==a)
-                  {
-                      //tuneles[j].reverseprinttunnel();
-                      segmentemp=tuneles[j].getsegments();
-                      for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
-                      {
-                          segmentpath.push_back(segmentemp.at(i));
-                      }
-                  }
-
-              }
-
-          }
-
-
-          std::cout << std::endl;
-
-
-          explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
-
-          while (explorationactualnode!=solutionpath[solutionpath.size()-1])
-          {
-              solutionpath.clear();
-              startnode=explorationactualnode;
-              solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
-
-
-              explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
-          }
-
-
-
-
-      }
-      else if(search==0)
-      {
-        rviz_visual_tools::RvizVisualToolsDemo demo;
-        demo.ploteo(Numnodos,nodos,enlaces,numberoftunnels,tuneles,startnode,goalnode);
+        startnode=exploration1.lost(nodos,Numnodos,lostnode);
       }
 
 
-      ROS_INFO_STREAM("Shutting down.");
+
+      //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
+
+      Dijkstra search;
+      solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+      int a,b;
+
+      std::cout << std::endl;
+      //std::cout << "Solution tunnel and segments sequence:" << std::endl;
+      std::cout << std::endl;
+
+      vector<Segment*> segmentpath,segmentemp;
+      for(int i=0; i<solutionpath.size()-1;i++){
+        a=solutionpath.at(i);
+        b=solutionpath.at(i+1);
+
+        //search tunnel between nodes
+        vector<int> temp;
+
+        for(int j=0;j<numberoftunnels;j++)
+        {
+          temp=tuneles[j].getendings();
+
+
+          if(temp.at(0)==a && temp.at(1)==b)
+          {
+            segmentemp=tuneles[j].getsegments();
+            //tuneles[j].printtunnel();
+            for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
+            {
+              segmentpath.push_back(segmentemp.at(i));
+            }
+          }
+
+
+          if(temp.at(0)==b && temp.at(1)==a)
+          {
+            //tuneles[j].reverseprinttunnel();
+            segmentemp=tuneles[j].getsegments();
+            for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
+            {
+              segmentpath.push_back(segmentemp.at(i));
+            }
+          }
+
+        }
+
+      }
+
+
+      std::cout << std::endl;
+
+
+      explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
+
+      while (explorationactualnode!=solutionpath[solutionpath.size()-1])
+      {
+        solutionpath.clear();
+        startnode=explorationactualnode;
+        solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+
+
+        explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numberoftunnels,OOIlist,Numnodos,enlaces);
+      }
+
+
+
+
+    }
+    else if(search==0)
+    {
+      rviz_visual_tools::RvizVisualToolsDemo demo;
+      demo.ploteo(Numnodos,nodos,enlaces,numberoftunnels,tuneles,startnode,goalnode);
+    }
+
+
+    ROS_INFO_STREAM("Shutting down.");
 
 
 
@@ -911,7 +873,7 @@ int main(int argc, char** argv)
   {
 
 
-      //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -920,252 +882,252 @@ int main(int argc, char** argv)
 
 
 
-      ifstream inputdata;
-      srand(time(NULL));
-      //definitions
-      int startnode, goalnode;
-      inputdata.open("/home/adri/Git/TFM-Codigo/data.txt");
+    ifstream inputdata;
+    srand(time(NULL));
+    //definitions
+    int startnode, goalnode;
+    inputdata.open("/home/adri/Git/TFM-Codigo/data.txt");
 
 
-      //Checks the openned file
-      if (!inputdata)
+    //Checks the openned file
+    if (!inputdata)
+    {
+      cout << "Error: Can't open the file.\n";
+      exit(1);
+    }
+
+
+    //Jumps header data
+    string junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+
+    string name;
+    int var1,var2, var7;
+    float var3, var5, var6, var4,x,y,z;
+
+    std::cout << "------Nodes input------" << std::endl;
+    std::cout << std::endl;
+
+
+    Node nodos[100];
+    int i=0, Numnodos; // N=Number of nodes in the graph
+
+    while (inputdata >> name >> var1 >> var2 >> var3 >> var4 >> var5 >> x >> y >> z)
+    {
+      //Check for the end of node definition
+      if (name=="NoMoreNodesFLAG")
       {
-          cout << "Error: Can't open the file.\n";
-          exit(1);
+        break;
+      };
+
+      //Configures the node
+      nodos[i].settype(name);
+      nodos[i].setnodenumber(var1);
+      nodos[i].setnumberofexits(var2);
+      nodos[i].setheight(var3);
+      nodos[i].setwidth(var4);
+      nodos[i].setdepth(var5);
+      nodos[i].setcoordinates(x,y,z);
+
+
+      for (int j=0;j<var2;j++)
+      {
+        inputdata >> var7 >> var3 >> var4 >> var5 >> var6;
+
+        nodos[i].setexitprop(var7,var3,var4,var5,var6);
       }
 
+      nodos[i].printnode();
 
-      //Jumps header data
-      string junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-
-      string name;
-      int var1,var2, var7;
-      float var3, var5, var6, var4,x,y,z;
-
-      std::cout << "------Nodes input------" << std::endl;
-      std::cout << std::endl;
+      i++;
+    }
 
 
-      Node nodos[100];
-      int i=0, Numnodos; // N=Number of nodes in the graph
+    //Jumps header data
+    Numnodos=i;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
 
-      while (inputdata >> name >> var1 >> var2 >> var3 >> var4 >> var5 >> x >> y >> z)
+
+    Tunnel tuneles[100];
+    vector<Segment> segments(30);
+
+
+
+    std::cout << std::endl;
+    std::cout << "------Tunnels input------" << std::endl;
+    std::cout << std::endl;
+
+
+
+    vector<Enlace> enlaces;
+    i=0;
+    std::string tunnel;
+    int start, final, nuseg,segcounter=0;
+
+
+    float len, wid, hei, slo,longitud;
+    while (inputdata >> tunnel >> start >> final >> nuseg)
+    {
+      tuneles[i].setname(tunnel);
+      tuneles[i].setstartnode(start);
+      tuneles[i].setfinalnode(final);
+      tuneles[i].setnumberofsegments(nuseg);
+
+      //creates as many segments as the tunnel has
+      for (int j=0;j<nuseg;j++)
       {
-          //Check for the end of node definition
-          if (name=="NoMoreNodesFLAG")
-          {
-              break;
-          };
-
-          //Configures the node
-          nodos[i].settype(name);
-          nodos[i].setnodenumber(var1);
-          nodos[i].setnumberofexits(var2);
-          nodos[i].setheight(var3);
-          nodos[i].setwidth(var4);
-          nodos[i].setdepth(var5);
-          nodos[i].setcoordinates(x,y,z);
-
-
-          for (int j=0;j<var2;j++)
-          {
-              inputdata >> var7 >> var3 >> var4 >> var5 >> var6;
-
-              nodos[i].setexitprop(var7,var3,var4,var5,var6);
-          }
-
-          nodos[i].printnode();
-
-          i++;
+        inputdata>> len >> wid >> hei >> slo;
+        segments[segcounter].setlength(len);
+        segments[segcounter].setwidth(wid);
+        segments[segcounter].setheight(hei);
+        segments[segcounter].setslope(slo);
+        tuneles[i].addsegment(&segments[segcounter]);
+        segcounter++;
       }
 
+      longitud=tuneles[i].getlength();
+      tuneles[i].printtunnel();
 
-      //Jumps header data
-      Numnodos=i;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
-      inputdata >> junkheader1;
+      //creates links in the node adjacency list
+      enlaces.push_back({start,final,longitud});
+      i++;
+    }
 
+    int numtuneles=i;
 
-      Tunnel tuneles[100];
-      vector<Segment> segments(30);
+    std::cout << std::endl;
+    std::cout << "------Node adjacency list------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
+    std::cout << std::endl;
 
+    //Constructs the graph
+    Grafo grafo(enlaces, Numnodos,nodos);
 
+    //Print adjacency list representation of the graph
+    grafo.printGraph(grafo, Numnodos);
+    std::cout << std::endl;
 
-      std::cout << std::endl;
-      std::cout << "------Tunnels input------" << std::endl;
-      std::cout << std::endl;
+    std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
+    char response;
 
+    int search=2;
 
-
-      vector<Enlace> enlaces;
-      i=0;
-      std::string tunnel;
-      int start, final, nuseg,segcounter=0;
-
-
-      float len, wid, hei, slo,longitud;
-      while (inputdata >> tunnel >> start >> final >> nuseg)
+    do{
+      std::cin>>response;
+      switch(response)
       {
-          tuneles[i].setname(tunnel);
-          tuneles[i].setstartnode(start);
-          tuneles[i].setfinalnode(final);
-          tuneles[i].setnumberofsegments(nuseg);
-
-          //creates as many segments as the tunnel has
-          for (int j=0;j<nuseg;j++)
-          {
-              inputdata>> len >> wid >> hei >> slo;
-              segments[segcounter].setlength(len);
-              segments[segcounter].setwidth(wid);
-              segments[segcounter].setheight(hei);
-              segments[segcounter].setslope(slo);
-              tuneles[i].addsegment(&segments[segcounter]);
-              segcounter++;
-          }
-
-          longitud=tuneles[i].getlength();
-          tuneles[i].printtunnel();
-
-          //creates links in the node adjacency list
-          enlaces.push_back({start,final,longitud});
-          i++;
+      case 'Y':
+        search=1;
+        std::cout << "Set start node:" << std::endl;
+        std::cin >> startnode;
+        std::cout << "Set goal node:" << std::endl;
+        std::cin >> goalnode;
+        break;
+      case 'y':
+        search=1;
+        std::cout << "Set start node:" << std::endl;
+        std::cin >> startnode;
+        std::cout << "Set goal node:" << std::endl;
+        std::cin >> goalnode;
+        break;
+      case 'N':   search=0;
+        goalnode=0;
+        startnode=0;
+        break;
+      case 'n':   search=0;
+        goalnode=0;
+        startnode=0;
+        break;
+      default: std::cout<<"Invalid choice" << std::endl;
+        break;
       }
+    }while(search!=0 && search!=1);
 
-      int numtuneles=i;
+
+    vector<int> solutionpath;
+    if (search==1)
+    {
+      //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
+
+      Dijkstra search;
+      solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+      int a,b;
 
       std::cout << std::endl;
-      std::cout << "------Node adjacency list------" << std::endl;
-      std::cout << std::endl;
-      std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
+      //std::cout << "Solution tunnel and segments sequence:" << std::endl;
       std::cout << std::endl;
 
-      //Constructs the graph
-      Grafo grafo(enlaces, Numnodos,nodos);
+      vector<Segment*> segmentpath,segmentemp;
+      for(int i=0; i<solutionpath.size()-1;i++){
+        a=solutionpath.at(i);
+        b=solutionpath.at(i+1);
 
-      //Print adjacency list representation of the graph
-      grafo.printGraph(grafo, Numnodos);
-      std::cout << std::endl;
+        //search tunnel between nodes
+        vector<int> temp;
 
-      std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
-      char response;
+        for(int j=0;j<numtuneles;j++)
+        {
+          temp=tuneles[j].getendings();
 
-      int search=2;
 
-      do{
-          std::cin>>response;
-          switch(response)
+          if(temp.at(0)==a && temp.at(1)==b)
           {
-          case 'Y':
-              search=1;
-              std::cout << "Set start node:" << std::endl;
-              std::cin >> startnode;
-              std::cout << "Set goal node:" << std::endl;
-              std::cin >> goalnode;
-              break;
-          case 'y':
-              search=1;
-              std::cout << "Set start node:" << std::endl;
-              std::cin >> startnode;
-              std::cout << "Set goal node:" << std::endl;
-              std::cin >> goalnode;
-              break;
-          case 'N':   search=0;
-            goalnode=0;
-            startnode=0;
-              break;
-          case 'n':   search=0;
-            goalnode=0;
-            startnode=0;
-              break;
-          default: std::cout<<"Invalid choice" << std::endl;
-              break;
-          }
-      }while(search!=0 && search!=1);
-
-
-      vector<int> solutionpath;
-      if (search==1)
-      {
-          //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
-
-          Dijkstra search;
-          solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
-          int a,b;
-
-              std::cout << std::endl;
-          //std::cout << "Solution tunnel and segments sequence:" << std::endl;
-              std::cout << std::endl;
-
-          vector<Segment*> segmentpath,segmentemp;
-          for(int i=0; i<solutionpath.size()-1;i++){
-              a=solutionpath.at(i);
-              b=solutionpath.at(i+1);
-
-              //search tunnel between nodes
-              vector<int> temp;
-
-              for(int j=0;j<numtuneles;j++)
-              {
-                  temp=tuneles[j].getendings();
-
-
-                  if(temp.at(0)==a && temp.at(1)==b)
-                  {
-                      segmentemp=tuneles[j].getsegments();
-                      //tuneles[j].printtunnel();
-                      for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
-                      {
-                          segmentpath.push_back(segmentemp.at(i));
-                      }
-                  }
-
-
-                  if(temp.at(0)==b && temp.at(1)==a)
-                  {
-                      //tuneles[j].reverseprinttunnel();
-                      segmentemp=tuneles[j].getsegments();
-                      for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
-                      {
-                          segmentpath.push_back(segmentemp.at(i));
-                      }
-                  }
-
-              }
-
+            segmentemp=tuneles[j].getsegments();
+            //tuneles[j].printtunnel();
+            for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
+            {
+              segmentpath.push_back(segmentemp.at(i));
+            }
           }
 
-              //ADD REVERSE PRINT TUNNEL SECTION
+
+          if(temp.at(0)==b && temp.at(1)==a)
+          {
+            //tuneles[j].reverseprinttunnel();
+            segmentemp=tuneles[j].getsegments();
+            for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
+            {
+              segmentpath.push_back(segmentemp.at(i));
+            }
+          }
+
+        }
 
       }
 
+      //ADD REVERSE PRINT TUNNEL SECTION
 
-      std::cout << std::endl;\
-      Exploration exploration1;
-
-      exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+    }
 
 
-      int asd=exploration1.lost(nodos,Numnodos,5);
+    std::cout << std::endl;\
+    Exploration exploration1;
+
+    exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+
+
+    int asd=exploration1.lost(nodos,Numnodos,5);
   }
 
 

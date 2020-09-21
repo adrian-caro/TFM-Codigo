@@ -26,6 +26,7 @@ public:
     void setnumberofsegments(int n);
     int getnumberofsegments();
     float getlength();
+    void setlenght(float n);
     vector<int> getendings();
     void setstartnode(int n);
     void setfinalnode(int n);

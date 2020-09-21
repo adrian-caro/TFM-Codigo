@@ -108,7 +108,7 @@ void Tunnel::addsegment(Segment *seg)
 
     //Segment lenght is added to the tunnel length.
     //maybe further implementation is needed when deleting segments in order to substract its lenght to tunnel length.
-    length=length+seg->getlength();
+    //length=length+seg->getlength();
 }
 
 void Tunnel::addOOI(OOI *ooi)
@@ -139,4 +139,9 @@ int Tunnel::getnumberofOOI()
 int Tunnel::getOOI_ID(int n)
 {
     return OOIs[n]->getID();
+}
+
+void Tunnel::setlenght(float n)
+{
+  length=n;
 }

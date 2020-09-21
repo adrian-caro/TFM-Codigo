@@ -329,7 +329,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         tunnelornode=0;
         actualtunnelornode=realtunnelOOI;
         plot.explorationplot(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back(),solutionpath,tunnelornode,actualtunnelornode);
-        ros::Duration(5.0).sleep();
+        ros::Duration(tuneles[realtunnelOOI].getlength()*0.4).sleep();
         //OOI check
 
 
@@ -432,9 +432,9 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
         tunnelornode=1;
         actualtunnelornode=actualnode;
         plot.explorationplot(Numnodos,nodos,enlaces,numtuneles,tuneles,solutionpath.at(0),solutionpath.back(),solutionpath,tunnelornode,actualtunnelornode);
-        ros::Duration(2.0).sleep();
+        ros::Duration(3).sleep();
 
-        if (actualnode==9999)
+        if (nodos[actualnode].gettype()=="Unknown")
         {
            std::cout << "The robot arrived to an unknown node. " << std::endl;
            std::cout << "No further exploration will be performed this way." << std::endl;

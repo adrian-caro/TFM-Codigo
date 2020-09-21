@@ -34,6 +34,7 @@ public:
     void addOOI(OOI *ooi);
     int getnumberofOOI();
     int getOOI_ID(int n);
+    void setlenght(float n);
 
 };
 
