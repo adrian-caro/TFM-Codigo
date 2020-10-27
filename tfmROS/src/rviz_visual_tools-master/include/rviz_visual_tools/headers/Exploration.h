@@ -9,7 +9,7 @@
 #define PHorivariationmax 0.1
 #define PVorivariationmax 0.1
 
-#define Pbadtunn 0.2
+#define Pbadtunn 0.3
 
 #define OOIdetectionRatio 0.9
 

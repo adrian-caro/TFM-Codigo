@@ -16,6 +16,7 @@
 #include "rviz_visual_tools/headers/Exploration.h"
 #include "rviz_visual_tools/headers/OOI.h"
 
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -315,6 +316,30 @@ public:
 
 
   }
+
+
+  void replanning(int nodenumber,Node *nodos)
+  {
+    //ROS_INFO_STREAM_NAMED(name_, "Testing sizes of marker scale");
+
+
+    Eigen::Isometry3d replan = Eigen::Isometry3d::Identity();
+    vector<float> coordenadas;
+
+
+      coordenadas=nodos[nodenumber].getcoordinates();
+
+
+      replan.translation() = Eigen::Vector3d( coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+0.5 ); // translate x,y,z
+
+
+
+      replan.translation() = Eigen::Vector3d(coordenadas.at(0), coordenadas.at(1), coordenadas.at(2)+1);
+      visual_tools_->publishText(replan, "Robot lost. REPLANNING ", PINK, rviz_visual_tools::XXXXLARGE, false);
+
+    visual_tools_->trigger();
+  }
+
 
 
 };  // end class
@@ -873,7 +898,42 @@ int main(int argc, char** argv)
   {
 
 
-    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------r------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -885,9 +945,9 @@ int main(int argc, char** argv)
     ifstream inputdata;
     srand(time(NULL));
     //definitions
-    int startnode, goalnode;
-    inputdata.open("/home/adri/Git/TFM-Codigo/data.txt");
-
+    //int startnode, goalnode;
+    inputdata.open("/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/data.txt");
+    int explorationactualnode;
 
     //Checks the openned file
     if (!inputdata)
@@ -932,7 +992,7 @@ int main(int argc, char** argv)
       {
         break;
       };
-
+      //std::cout << name << var1 << var2 << var3 << var4 << var5 << x << y << z << std::endl;
       //Configures the node
       nodos[i].settype(name);
       nodos[i].setnodenumber(var1);
@@ -941,15 +1001,16 @@ int main(int argc, char** argv)
       nodos[i].setwidth(var4);
       nodos[i].setdepth(var5);
       nodos[i].setcoordinates(x,y,z);
-
+      std::cout << std::endl;
 
       for (int j=0;j<var2;j++)
       {
         inputdata >> var7 >> var3 >> var4 >> var5 >> var6;
+        //std::cout << var7 << var3 << var4 << var5 << var6 << std::endl;
 
         nodos[i].setexitprop(var7,var3,var4,var5,var6);
       }
-
+      std::cout << std::endl;
       nodos[i].printnode();
 
       i++;
@@ -988,6 +1049,11 @@ int main(int argc, char** argv)
     float len, wid, hei, slo,longitud;
     while (inputdata >> tunnel >> start >> final >> nuseg)
     {
+      if (tunnel=="NoMoreTunnelsFlag")
+      {
+        break;
+      };
+      //std::cout << tunnel << start << final << nuseg << std::endl;
       tuneles[i].setname(tunnel);
       tuneles[i].setstartnode(start);
       tuneles[i].setfinalnode(final);
@@ -1014,12 +1080,44 @@ int main(int argc, char** argv)
     }
 
     int numtuneles=i;
+    int contadorOOI=0;
+    OOI OOIs[Numnodos*3];
+
+    int ooiposition;
+    int tunnelornode;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+    inputdata >> junkheader1;
+
+    while (inputdata >> OOI_ID >> ooiposition >> tunnelornode)
+    {
+
+      std::cout << OOI_ID << ooiposition << tunnelornode << std::endl;
+      OOIs[contadorOOI].setID(OOI_ID);
+      OOIlist.push_back(make_pair(OOI_ID,ooiposition));
+      if (tunnelornode==0){
+        nodos[ooiposition].addOOI(&OOIs[contadorOOI]);
+      }
+      else{
+        tuneles[ooiposition].addOOI(&OOIs[contadorOOI]);
+      }
+      contadorOOI++;
+
+    }
+
+
+
+
+
 
     std::cout << std::endl;
     std::cout << "------Node adjacency list------" << std::endl;
     std::cout << std::endl;
     std::cout << "Node --> (LinkedNode,Distance)" << std::endl;
     std::cout << std::endl;
+
+
+
 
     //Constructs the graph
     Grafo grafo(enlaces, Numnodos,nodos);
@@ -1028,36 +1126,35 @@ int main(int argc, char** argv)
     grafo.printGraph(grafo, Numnodos);
     std::cout << std::endl;
 
+
     std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
     char response;
 
     int search=2;
-
+    int startnode = 0, goalnode = 0;
     do{
       std::cin>>response;
       switch(response)
       {
       case 'Y':
         search=1;
-        std::cout << "Set start node:" << std::endl;
-        std::cin >> startnode;
-        std::cout << "Set goal node:" << std::endl;
-        std::cin >> goalnode;
+
         break;
       case 'y':
         search=1;
-        std::cout << "Set start node:" << std::endl;
-        std::cin >> startnode;
-        std::cout << "Set goal node:" << std::endl;
-        std::cin >> goalnode;
+
         break;
-      case 'N':   search=0;
+      case 'N':
+        search=0;
         goalnode=0;
         startnode=0;
+
         break;
       case 'n':   search=0;
         goalnode=0;
         startnode=0;
+
+
         break;
       default: std::cout<<"Invalid choice" << std::endl;
         break;
@@ -1068,6 +1165,52 @@ int main(int argc, char** argv)
     vector<int> solutionpath;
     if (search==1)
     {
+      int searchmode = 0;
+      std::cout << "Select start mode." << std::endl;
+      std::cout << "1. Lost start mode" << std::endl;
+      std::cout << "2. Known start node" << std::endl;
+      cout << "--------------------" << std::endl;
+      cout << "Mode:";
+
+      int lostnode = 0;
+
+
+
+      char answer;
+      do{
+        std::cin>>answer;
+        switch(answer)
+        {
+        case '1':
+          searchmode=1;
+          std::cout << "Set start lost node:" << std::endl;
+          std::cin >> lostnode;
+          std::cout << "Set goal node:" << std::endl;
+          std::cin >> goalnode;
+          break;
+        case '2':
+          searchmode=2;
+          std::cout << "Set start node:" << std::endl;
+          std::cin >> startnode;
+          std::cout << "Set goal node:" << std::endl;
+          std::cin >> goalnode;
+
+          break;
+        default: std::cout<<"Invalid choice" << std::endl;
+          break;
+        }
+      }while(answer!='1' && answer!='2');
+
+
+      Exploration exploration1;
+
+      if (searchmode==1)
+      {
+        startnode=exploration1.lost(nodos,Numnodos,lostnode);
+      }
+
+
+
       //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
 
       Dijkstra search;
@@ -1116,18 +1259,164 @@ int main(int argc, char** argv)
 
       }
 
-      //ADD REVERSE PRINT TUNNEL SECTION
 
+      std::cout << std::endl;
+
+
+      explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+
+      while (explorationactualnode!=solutionpath[solutionpath.size()-1])
+      {
+        solutionpath.clear();
+        startnode=explorationactualnode;
+        solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+
+
+        explorationactualnode=exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+      }
+
+
+
+
+    }
+    else if(search==0)
+    {
+      rviz_visual_tools::RvizVisualToolsDemo demo;
+      demo.ploteo(Numnodos,nodos,enlaces,numtuneles,tuneles,startnode,goalnode);
     }
 
 
-    std::cout << std::endl;\
-    Exploration exploration1;
-
-    exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+    ROS_INFO_STREAM("Shutting down.");
 
 
-    int asd=exploration1.lost(nodos,Numnodos,5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    //Constructs the graph
+//    Grafo grafo(enlaces, Numnodos,nodos);
+
+//    //Print adjacency list representation of the graph
+//    grafo.printGraph(grafo, Numnodos);
+//    std::cout << std::endl;
+
+//    std::cout << "Do you want to perform a path search between two nodes? (Y/N)." << std::endl;
+//    char response;
+
+//    int search=2;
+
+//    do{
+//      std::cin>>response;
+//      switch(response)
+//      {
+//      case 'Y':
+//        search=1;
+//        std::cout << "Set start node:" << std::endl;
+//        std::cin >> startnode;
+//        std::cout << "Set goal node:" << std::endl;
+//        std::cin >> goalnode;
+//        break;
+//      case 'y':
+//        search=1;
+//        std::cout << "Set start node:" << std::endl;
+//        std::cin >> startnode;
+//        std::cout << "Set goal node:" << std::endl;
+//        std::cin >> goalnode;
+//        break;
+//      case 'N':   search=0;
+//        goalnode=0;
+//        startnode=0;
+//        break;
+//      case 'n':   search=0;
+//        goalnode=0;
+//        startnode=0;
+//        break;
+//      default: std::cout<<"Invalid choice" << std::endl;
+//        break;
+//      }
+//    }while(search!=0 && search!=1);
+
+
+//    vector<int> solutionpath;
+//    if (search==1)
+//    {
+//      //Performs the path search betweeen to given nodes (defined at the very first lines of the main().
+
+//      Dijkstra search;
+//      solutionpath=search.algorithm(startnode,goalnode,grafo.getlista());
+//      int a,b;
+
+//      std::cout << std::endl;
+//      //std::cout << "Solution tunnel and segments sequence:" << std::endl;
+//      std::cout << std::endl;
+
+//      vector<Segment*> segmentpath,segmentemp;
+//      for(int i=0; i<solutionpath.size()-1;i++){
+//        a=solutionpath.at(i);
+//        b=solutionpath.at(i+1);
+
+//        //search tunnel between nodes
+//        vector<int> temp;
+
+//        for(int j=0;j<numtuneles;j++)
+//        {
+//          temp=tuneles[j].getendings();
+
+
+//          if(temp.at(0)==a && temp.at(1)==b)
+//          {
+//            segmentemp=tuneles[j].getsegments();
+//            //tuneles[j].printtunnel();
+//            for (int i=0; i<tuneles[j].getnumberofsegments(); i++)
+//            {
+//              segmentpath.push_back(segmentemp.at(i));
+//            }
+//          }
+
+
+//          if(temp.at(0)==b && temp.at(1)==a)
+//          {
+//            //tuneles[j].reverseprinttunnel();
+//            segmentemp=tuneles[j].getsegments();
+//            for (int i=tuneles[j].getnumberofsegments()-1; i>-1; i--)
+//            {
+//              segmentpath.push_back(segmentemp.at(i));
+//            }
+//          }
+
+//        }
+
+//      }
+
+//      //ADD REVERSE PRINT TUNNEL SECTION
+
+//    }
+
+
+//    std::cout << std::endl;\
+//    Exploration exploration1;
+
+//    exploration1.explorationalgorithm(nodos,solutionpath,tuneles,numtuneles,OOIlist,Numnodos,enlaces);
+
+
+//    int asd=exploration1.lost(nodos,Numnodos,5);
   }
 
 

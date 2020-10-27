@@ -379,7 +379,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
                         if (expectedtunnelOOI!=checkOOItunnel)
                         {
                             std::cout << "Expected tunnel position wrong. OOI confirmed the real position. "<<std::endl;
-
+                            plot.replanning(realnextnode,nodos);
                             uncertainty=1;
                             return realnextnode;
 
@@ -585,6 +585,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
                             pastnode=checkOOInode;
                             pnodevariation=1;
                             uncertainty=1;
+                            plot.replanning(actualnode,nodos);
                             return actualnode;
 
                         }
@@ -642,6 +643,7 @@ int Exploration::explorationalgorithm(Node *nodos, vector<int> solutionpath, Tun
                         std::cout << "Checking the map for detecting tunnel mistakes."<< std::endl;
 
                         std::cout << "Mistaken tunnel choosed confirmed by map simmilarities."<< std::endl;
+                        plot.replanning(actualnode,nodos);
                         return actualnode;
                         std::cout << "Trying to return to the previous node ."<< std::endl;
                         uncertainty=pastuncertainty+0.2;

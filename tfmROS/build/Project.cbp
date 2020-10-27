@@ -1926,43 +1926,22 @@
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Dijkstra.cpp">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Dijkstra.h">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Exploration.cpp">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Exploration.h">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Graph.cpp">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Graph.h">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Node.cpp">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Node.h">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/OOI.cpp">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/OOI.h">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Segment.cpp">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Segment.h">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Tunnel.cpp">
-			<Option target="rviz_visual_tools"/>
-		</Unit>
-		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/Tunnel.h">
 			<Option target="rviz_visual_tools"/>
 		</Unit>
 		<Unit filename="/home/adri/Datos/Git/TFM-Codigo/tfmROS/src/rviz_visual_tools-master/src/data.txt">
